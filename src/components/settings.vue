@@ -1,8 +1,13 @@
-<template>SETTINGS</template>
+<template>
+  SETTINGS
+  <TheLoginForm />
+</template>
 
 <script>
+import TheLoginForm from './authentication/TheLoginForm.vue';
 export default {
   name: 'Settings',
+  components: { TheLoginForm },
 };
 </script>
 
