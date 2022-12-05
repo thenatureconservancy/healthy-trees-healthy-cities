@@ -1,25 +1,10 @@
 <template>
   <q-scroll-area class="" style="padding-bottom: 140px; height: 100vh">
     <div class="bg-white text-left q-ma-sm q-pa-md">
-      <q-toolbar
-        class="q-pl-lg q-mb-md bg-grey-3"
-        style="letter-spacing: 1.5px; min-height: 40px !important"
-        >YOUR PROJECTS
-
-        <q-space></q-space>
-        <q-btn
-          color="primary"
-          padding="sm"
-          size="lg"
-          flat
-          icon="sym_s_add"
-          @click="newProjectDialog = true"
-        ></q-btn>
-      </q-toolbar>
       <div class="q-mt-sm q-pa-sm">
         <p class="q-mb-none semi-bold text-body1">Active Project</p>
         <div class="row">
-          <div class="col-10">
+          <div class="col-8">
             <q-select
               outlined
               v-model="$store.state.app.defaultProject"
@@ -50,6 +35,16 @@
               flat
               icon="sym_s_edit"
               @click="editProjectDialog = true"
+            ></q-btn>
+          </div>
+          <div class="col-2">
+            <q-btn
+              color="primary"
+              padding="sm"
+              size="lg"
+              flat
+              icon="sym_s_add"
+              @click="newProjectDialog = true"
             ></q-btn>
           </div>
         </div>
@@ -135,7 +130,8 @@
 
         <p class="semi-bold q-mb-none q-mt-lg text-body1">Filter Trees</p>
         <p class="q-mt-none q-pt-none">
-          Applied filters will limit the project trees shown in the map and log
+          Applied filters will limit the project trees shown in the map and
+          activities shown in the log
         </p>
         <q-btn
           @click="this.showFilterDialog = true"
@@ -473,7 +469,12 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+.semi-bold {
+  font-weight: 600;
+}
+</style>
+
 <style>
 .semi-bold {
   font-weight: 600;

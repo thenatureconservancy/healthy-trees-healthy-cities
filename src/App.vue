@@ -16,7 +16,7 @@
     </q-header>
     <q-page-container class="" style="padding-top: 1px">
       <Projects v-if="this.selected == 'home'"></Projects>
-      <trees v-if="this.selected == 'trees'"></trees>
+      <Trees v-if="this.selected == 'trees'"></Trees>
       <log v-if="this.selected == 'log'"></log>
       <settings v-if="this.selected == 'settings'"></settings>
       <Resources v-if="this.selected == 'resources'"></Resources>
@@ -98,13 +98,13 @@
 
 <script>
 import Projects from './components/Projects.vue';
-import trees from './components/trees.vue';
+import Trees from './components/Trees.vue';
 import log from './components/log.vue';
 import settings from './components/settings.vue';
 import Resources from './components/Resources.vue';
 export default {
   name: 'App',
-  components: { Projects, trees, log, settings, Resources },
+  components: { Projects, Trees, log, settings, Resources },
   computed: {
     selectedView() {
       return this.$store.state.app.selectedView;

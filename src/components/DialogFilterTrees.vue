@@ -48,4 +48,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+.semi-bold {
+  font-weight: 600;
+}
+</style>

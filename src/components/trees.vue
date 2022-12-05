@@ -24,6 +24,18 @@
 
     <div id="map" style="z-index: 99"></div>
     <div
+      id="layers"
+      style="position: absolute; z-index: 100; top: 75px; right: 15px"
+    >
+      <q-btn
+        padding="10px"
+        round
+        icon="sym_s_layers"
+        color="primary"
+        @click="showLayersDialog = true"
+      ></q-btn>
+    </div>
+    <div
       id="addTree"
       style="position: absolute; z-index: 100; top: 15px; right: 15px"
     >
@@ -118,11 +130,8 @@
           v-touch-pan.mouse.vertical="slideDrawer"
           class="text-subtitle2 q-mt-none q-mb-md text-black"
         >
-          <q-icon name="location_on" color="red" size="sm"></q-icon>
+          Active Project:
           {{ $store.state.app.defaultProject }} &nbsp; &nbsp; &nbsp;
-
-          <q-icon name="location_on" color="blue" size="sm"></q-icon>
-          All Trees
         </div>
 
         <q-card-section
@@ -322,10 +331,35 @@
       <q-card-section class="row items-center"> </q-card-section>
     </q-card>
   </q-dialog>
+
+  <q-dialog
+    v-model="showLayersDialog"
+    transition-show="slide-right"
+    transition-hide="slide-left"
+    style="width: 50%"
+    persistent
+  >
+    <q-card>
+      <q-card-actions align="left">
+        <q-btn
+          flat
+          icon="sym_s_arrow_back"
+          label=""
+          color="primary"
+          v-close-popup
+        />
+        <q-chip size="lg" color="white" class="text-primary">Layers</q-chip>
+      </q-card-actions>
+      <q-card-section class="row items-center">
+        <DialogMapLayers></DialogMapLayers
+      ></q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script>
 import L from '/node_modules/leaflet/dist/leaflet.js';
+import DialogMapLayers from './DialogMapLayers.vue';
 const drawerMinHeight = 130;
 const drawerTopOffset = 150;
 const drawerOpenRatioHalf = 50;
@@ -333,8 +367,8 @@ const drawerOpenRatioHalf = 50;
 var bigBlue = '';
 var bigRed = '';
 export default {
-  name: 'trees',
-  components: {},
+  name: 'Trees',
+  components: { DialogMapLayers },
   computed: {
     drawerMaxHeight() {
       return Math.max(0, this.$q.screen.height - drawerTopOffset);
@@ -365,6 +399,7 @@ export default {
   },
   data() {
     return {
+      showLayersDialog: false,
       red: 'on',
       blue: 'on',
       showCard: '',
