@@ -408,7 +408,7 @@ const drawerOpenRatioHalf = 50;
 var bigBlue = '';
 var bigRed = '';
 export default {
-  name: 'Trees',
+  name: 'Map',
   components: { DialogMapLayers, DialogFilterTrees },
   computed: {
     drawerMaxHeight() {
