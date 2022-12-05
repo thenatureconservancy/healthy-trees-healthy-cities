@@ -133,8 +133,19 @@
           Pest Detection
         </q-chip>
 
-        <p class="semi-bold q-mb-xs q-mt-md text-body1">Stats</p>
-        <div class="row">
+        <p class="semi-bold q-mb-none q-mt-lg text-body1">Filter Trees</p>
+        <p class="q-mt-none q-pt-none">
+          Applied filters will limit the project trees shown in the map and log
+        </p>
+        <q-btn
+          @click="this.showFilterDialog = true"
+          icon="sym_s_filter_alt"
+          outline
+          color="primary"
+          >Add filter</q-btn
+        >
+
+        <!--div class="row">
           <div
             class="col-3 q-pa-xs q-mr-md text-center text-grey-6"
             style="border: 1px solid #a4a9bc"
@@ -156,7 +167,7 @@
             <span class="text-h5">0</span> <br />
             Pests Detected
           </div>
-        </div>
+        </div-->
         <!--p
         class="subtitle2"
         v-if="$store.state.app.defaultProject !== 'Taughannok Park'"
@@ -305,6 +316,7 @@
     </div-->
   </q-scroll-area>
 
+  <!--New Project Dialog-->
   <q-dialog
     v-model="newProjectDialog"
     transition-show="slide-right"
@@ -330,6 +342,7 @@
       </q-card-section>
     </q-card>
   </q-dialog>
+  <!--Edit Project Dialog-->
   <q-dialog
     v-model="editProjectDialog"
     transition-show="slide-right"
@@ -355,32 +368,7 @@
       </q-card-section>
     </q-card>
   </q-dialog>
-  <q-dialog
-    v-model="viewProjectDialog"
-    transition-show="slide-right"
-    transition-hide="slide-left"
-    maximized
-    persistent
-  >
-    <q-card>
-      <q-card-actions align="left">
-        <q-btn
-          flat
-          icon="sym_s_arrow_back"
-          label=""
-          color="primary"
-          v-close-popup
-        />
-        <q-chip size="lg" color="white" class="text-primary"
-          >View Project</q-chip
-        >
-      </q-card-actions>
-      <q-card-section class="row items-center">
-        <FormViewProject></FormViewProject>
-      </q-card-section>
-    </q-card>
-  </q-dialog>
-
+  <!--Tasks Dialog-->
   <q-dialog
     v-model="taskSelectedDialog"
     transition-show="slide-right"
@@ -404,14 +392,40 @@
       <q-card-section class="row items-center"> </q-card-section>
     </q-card>
   </q-dialog>
+  <!--Filter Dialog-->
+  <q-dialog
+    v-model="showFilterDialog"
+    transition-show="slide-right"
+    transition-hide="slide-left"
+    maximized
+    persistent
+  >
+    <q-card>
+      <q-card-actions align="left">
+        <q-btn
+          flat
+          icon="sym_s_arrow_back"
+          label=""
+          color="primary"
+          v-close-popup
+        />
+        <q-chip size="lg" color="white" class="text-primary"
+          >Filter Trees</q-chip
+        >
+      </q-card-actions>
+      <q-card-section class="row items-center">
+        <DialogFilterTrees></DialogFilterTrees>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 <script>
 import FormNewProject from './FormNewProject.vue';
 import FormEditProject from './FormEditProject.vue';
-import FormViewProject from './FormViewProject.vue';
+import DialogFilterTrees from './DialogFilterTrees.vue';
 export default {
   name: 'Projects',
-  components: { FormNewProject, FormEditProject, FormViewProject },
+  components: { FormNewProject, FormEditProject, DialogFilterTrees },
   computed: {
     heavyList() {
       const maxSize = 3;
@@ -448,7 +462,7 @@ export default {
     return {
       taskSelected: '',
       taskSelectedDialog: false,
-      viewProjectDialog: false,
+      showFilterDialog: false,
       newProjectDialog: false,
       editProjectDialog: false,
       noRipple: false,
@@ -459,9 +473,9 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped></style>
+<style>
 .semi-bold {
   font-weight: 600;
 }
 </style>
-<style></style>

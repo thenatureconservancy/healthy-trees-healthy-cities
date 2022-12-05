@@ -58,7 +58,7 @@
             flat
             size=""
             color=""
-            label="Trees"
+            label="Map"
             icon="sym_s_nature"
             :ripple="noRipple"
             @click="selected = 'trees'"
