@@ -36,6 +36,18 @@
       ></q-btn>
     </div>
     <div
+      id="filter"
+      style="position: absolute; z-index: 100; top: 135px; right: 15px"
+    >
+      <q-btn
+        padding="10px"
+        round
+        icon="sym_s_filter_alt"
+        color="primary"
+        @click="showFilterDialog = true"
+      ></q-btn>
+    </div>
+    <div
       id="addTree"
       style="position: absolute; z-index: 100; top: 15px; right: 15px"
     >
@@ -355,11 +367,40 @@
       ></q-card-section>
     </q-card>
   </q-dialog>
+
+  <!--Filter Dialog-->
+  <q-dialog
+    v-model="showFilterDialog"
+    transition-show="slide-right"
+    transition-hide="slide-left"
+    maximized
+    persistent
+  >
+    <q-card>
+      <q-card-actions align="left">
+        <q-btn
+          flat
+          icon="sym_s_arrow_back"
+          label=""
+          color="primary"
+          v-close-popup
+        />
+        <q-chip size="lg" color="white" class="text-primary"
+          >Filter Trees</q-chip
+        >
+      </q-card-actions>
+      <q-card-section class="row items-center">
+        <DialogFilterTrees></DialogFilterTrees>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script>
 import L from '/node_modules/leaflet/dist/leaflet.js';
 import DialogMapLayers from './DialogMapLayers.vue';
+import DialogFilterTrees from './DialogFilterTrees.vue';
+
 const drawerMinHeight = 130;
 const drawerTopOffset = 150;
 const drawerOpenRatioHalf = 50;
@@ -368,7 +409,7 @@ var bigBlue = '';
 var bigRed = '';
 export default {
   name: 'Trees',
-  components: { DialogMapLayers },
+  components: { DialogMapLayers, DialogFilterTrees },
   computed: {
     drawerMaxHeight() {
       return Math.max(0, this.$q.screen.height - drawerTopOffset);
@@ -399,6 +440,7 @@ export default {
   },
   data() {
     return {
+      showFilterDialog: false,
       showLayersDialog: false,
       red: 'on',
       blue: 'on',
