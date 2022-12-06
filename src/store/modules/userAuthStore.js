@@ -7,6 +7,7 @@ const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({
 });
 
 // ES AWS Modules
+
 import {
   CognitoUserPool,
   AuthenticationDetails,
