@@ -125,7 +125,7 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch('tryAutoLogin');
+    this.$store.dispatch('getAndValidateUserToken');
   },
 };
 </script>

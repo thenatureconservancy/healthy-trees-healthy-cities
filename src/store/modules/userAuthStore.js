@@ -89,7 +89,7 @@ const actions = {
       }
     );
   },
-  async login() {
+  async login(context) {
     var authenticationData = {
       Username: testUserName,
       Password: testPassword,
@@ -101,11 +101,24 @@ const actions = {
     });
     // let context = this;
     cognitoUser.authenticateUser(authenticationDetails, {
-      onSuccess: function (result) {
-        console.log(result);
-        // context.userId = result.idToken.payload.sub;
-        // context.username = result.idToken.payload.email;
-        // console.log(context);
+      onSuccess: async function (result) {
+        context.dispatch('getAndValidateUserToken');
+        // console.log(result);
+        // const cognitoUser = userPool.getCurrentUser();
+        // if (cognitoUser != null) {
+        //   await cognitoUser.getSession(function (err, session) {
+        //     if (err) {
+        //       console.log(err);
+        //     }
+        //     console.log(session.idToken.payload);
+        //     console.log(session.isValid());
+        //     // check to see if valid session
+        //     if (session.isValid()) {
+        //       context.state.authMode = 'userPage';
+        //       context.state.userInfo = session.idToken.payload;
+        //     }
+        //   });
+        // }
       },
       onFailure: function (err) {
         console.log(err);
@@ -118,7 +131,25 @@ const actions = {
       },
     });
   },
-  async tryAutoLogin(context) {
+  // logs user out of the application
+  logoutUser(context) {
+    const cognitoUser = userPool.getCurrentUser();
+    // sign user out of application
+    // this invalidates their tokens.
+    cognitoUser.signOut();
+    context.state.userInfo = '';
+    context.state.authMode = 'login';
+
+    // push back to login page
+    // router
+    //   .replace({
+    //     path: 'login',
+    //   })
+    //   .catch((err) => {
+    //     // console.log(err);
+    //   });
+  },
+  async getAndValidateUserToken(context) {
     // the line below is how we can keep getting user info to make requests to API
     const cognitoUser = userPool.getCurrentUser();
     if (cognitoUser != null) {

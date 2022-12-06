@@ -149,6 +149,15 @@
       class="q-mb-xs q-mt-md"
       >Logout</q-btn
     >
+    <br />
+
+    <q-btn
+      @click="exampleApiRequest"
+      size="18px"
+      color="primary"
+      class="q-mb-xs q-mt-md"
+      >Example protected API request</q-btn
+    >
   </div>
 </template>
 
@@ -190,7 +199,10 @@ export default {
         password: this.password,
       });
     },
-    logoutUser() {},
+    logoutUser() {
+      this.$store.dispatch('logoutUser');
+    },
+
     confirmSignup() {
       this.$store.dispatch('confirmSignup', {
         email: this.username,
@@ -203,6 +215,9 @@ export default {
 
     getCurrentUserIdToken() {
       this.$store.dispatch('getCurrentUserIdToken');
+    },
+    exampleApiRequest() {
+      console.log('example protecetd request ');
     },
   },
 };
