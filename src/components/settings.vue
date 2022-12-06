@@ -1,5 +1,5 @@
 <template>
-  SETTINGS
+  <!-- SETTINGS -->
   <TheLoginForm />
 </template>
 
