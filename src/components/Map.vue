@@ -140,10 +140,28 @@
         </q-card-section>
         <div
           v-touch-pan.mouse.vertical="slideDrawer"
-          class="text-subtitle2 q-mt-none q-mb-md text-black"
+          class="semi-bold text-subtitle2 q-mt-none q-mb-md text-black row"
         >
-          Active Project:
-          {{ $store.state.app.defaultProject }} &nbsp; &nbsp; &nbsp;
+          <div class="col-4 self-center">Active Project:</div>
+          <div class="col-6">
+            {{ $store.state.app.defaultProject }}
+            <q-btn
+              color="primary"
+              padding="sm"
+              size="sm"
+              flat
+              icon="sym_s_edit"
+              @click="$store.commit('updateSelectedView', 'home')"
+            ></q-btn>
+          </div>
+          <div class="col-2 self-center">
+            &nbsp; &nbsp;(1<q-icon
+              size="xs"
+              name="location_on"
+              color="red"
+            ></q-icon
+            >)
+          </div>
         </div>
 
         <q-card-section
@@ -582,6 +600,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style src="leaflet/dist/leaflet.css"></style>
 <style scoped>
+.semi-bold {
+  font-weight: 500;
+  font-size: 17px;
+}
+
 #map {
   height: 80vh;
 }

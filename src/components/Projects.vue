@@ -1,10 +1,25 @@
 <template>
-  <q-scroll-area class="" style="padding-bottom: 140px; height: 100vh">
+  <q-scroll-area class="scroll-height">
+    <div class="row">
+      <div class="col-6"></div>
+      <div class="col-6">
+        <q-btn
+          color="primary"
+          padding="sm"
+          size="lg"
+          flat
+          icon-right="sym_s_add"
+          label="New Project"
+          no-caps
+          @click="newProjectDialog = true"
+        ></q-btn>
+      </div>
+    </div>
     <div class="bg-white text-left q-ma-sm q-pa-md">
-      <div class="q-mt-sm q-pa-sm">
+      <div class="">
         <p class="q-mb-none semi-bold text-body1">Active Project</p>
         <div class="row">
-          <div class="col-8">
+          <div class="col-10">
             <q-select
               outlined
               v-model="$store.state.app.defaultProject"
@@ -15,20 +30,20 @@
               <template v-slot:hint>
                 <span
                   v-if="$store.state.app.defaultProject !== 'Taughannok Park'"
-                  class="text-accent"
+                  class="text-orange"
                   >OWNER</span
                 >
                 <span
                   v-if="$store.state.app.defaultProject == 'Taughannok Park'"
-                  class="text-accent"
+                  class="text-orange"
                   >MEMBER</span
                 >
               </template>
             </q-select>
           </div>
-          <div class="col2">
+          <div class="col-1">
             <q-btn
-              v-if="$store.state.app.defaultProject !== 'Taughannok Park'"
+              :disable="$store.state.app.defaultProject == 'Taughannok Park'"
               color="primary"
               padding="md"
               size="md"
@@ -37,20 +52,9 @@
               @click="editProjectDialog = true"
             ></q-btn>
           </div>
-          <div class="col-2">
-            <q-btn
-              color="primary"
-              padding="sm"
-              size="lg"
-              flat
-              icon="sym_s_add"
-              @click="newProjectDialog = true"
-            ></q-btn>
-          </div>
         </div>
       </div>
       <div class="q-mt-sm q-pa-sm">
-        <p class="q-mb-none semi-bold text-body1">Description</p>
         <p
           v-if="$store.state.app.defaultProject !== 'Taughannok Park'"
           class="q-mb-none text-body2"
@@ -68,7 +72,7 @@
         </p>
       </div>
 
-      <div class="q-mt-sm q-pa-sm">
+      <div class="q-mt-sm q-pa-sm bg-grey-3">
         <p class="q-mb-none semi-bold text-body1">Tasks</p>
         <p class="">Select a task to view instructions</p>
         <q-chip
@@ -127,8 +131,9 @@
         >
           Pest Detection
         </q-chip>
-
-        <p class="semi-bold q-mb-none q-mt-lg text-body1">Filter Trees</p>
+      </div>
+      <div class="bg-grey-3 q-pa-sm q-mt-md">
+        <p class="semi-bold q-mb-none text-body1">Filter</p>
         <p class="q-mt-none q-pt-none">
           Applied filters will limit the project trees shown in the map and
           activities shown in the log
@@ -140,8 +145,8 @@
           color="primary"
           >Add filter</q-btn
         >
-
-        <!--div class="row">
+      </div>
+      <!--div class="row">
           <div
             class="col-3 q-pa-xs q-mr-md text-center text-grey-6"
             style="border: 1px solid #a4a9bc"
@@ -164,7 +169,7 @@
             Pests Detected
           </div>
         </div-->
-        <!--p
+      <!--p
         class="subtitle2"
         v-if="$store.state.app.defaultProject !== 'Taughannok Park'"
       >
@@ -203,17 +208,24 @@
           pests/diseases</span
         >
       </p-->
-      </div>
-      <div class="text-center">
-        <q-btn
-          style="width: 100%"
-          size="18px"
-          color="primary"
-          class="q-mb-xs q-mt-md"
-          @click="$store.commit('updateSelectedView', 'trees')"
-          >View Trees</q-btn
-        >
-      </div>
+    </div>
+    <div class="text-center q-ml-lg q-mr-lg">
+      <q-btn
+        style="width: 100%"
+        size="18px"
+        color="primary"
+        class="q-mb-xs q-mt-md"
+        @click="$store.commit('updateSelectedView', 'trees')"
+        >View Project Trees</q-btn
+      >
+      <q-btn
+        style="width: 100%"
+        size="18px"
+        color="orange"
+        class="q-mb-xs q-mt-sm"
+        @click="$store.commit('updateSelectedView', 'log')"
+        >View Project Log</q-btn
+      >
     </div>
 
     <!--div class="bg-white text-left q-ma-sm q-pa-md">
@@ -330,7 +342,7 @@
           v-close-popup
         />
         <q-chip size="lg" color="white" class="text-primary"
-          >Add New Project</q-chip
+          >Create New Project</q-chip
         >
       </q-card-actions>
       <q-card-section class="row items-center">
@@ -471,12 +483,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .semi-bold {
-  font-weight: 600;
+  font-weight: 500;
+  font-size: 20px;
+}
+.scroll-height {
+  height: calc(100vh - 140px);
 }
 </style>
 
-<style>
-.semi-bold {
-  font-weight: 600;
-}
-</style>
+<style></style>

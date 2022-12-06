@@ -8,12 +8,11 @@
       v-for="opt in layers"
       v-model="opt.model"
       :key="opt.value"
-      :label="opt.label"
       color="primary"
       type="checkbox"
-      ><q-icon size="sm" :name="opt.iconName" :color="opt.iconColor"></q-icon
-      ><br
-    /></q-checkbox>
+      ><q-icon size="sm" :name="opt.iconName" :color="opt.iconColor"></q-icon>
+      &nbsp;{{ opt.label }}</q-checkbox
+    >
   </div>
 </template>
 
