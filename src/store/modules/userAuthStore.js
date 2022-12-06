@@ -31,36 +31,63 @@ const poolData = {
 };
 
 const userPool = new CognitoUserPool(poolData);
-console.log(userPool);
 
-const state = () => ({});
+const state = () => ({
+  // authMode: 'verify',
+  authMode: 'login',
+  userInfo: '',
+});
 
 const getters = {};
 
 const mutations = {};
 
 const actions = {
-  async createAccount() {
+  async createAccount(context, data) {
+    console.log(data);
     var params = {
       ClientId: clientId /* required */,
-      Password: testPassword /* required */,
-      Username: testUserName /* required */,
+      Password: data.password /* required */,
+      Username: data.email /* required */,
     };
+    console.log(context);
     cognitoidentityserviceprovider.signUp(params, function (err, data) {
-      if (err) console.log(err, err.stack); // an error occurred
-      else console.log(data); // successful response
+      if (err) {
+        console.log(err, err.stack); // an error occurred
+      } else {
+        console.log(data); // successful response}
+        // redirect user to verify account with code page
+        context.state.authMode = 'verify';
+      }
     });
   },
-  confirmSignup() {
+  confirmSignup(context, data) {
     var params = {
       ClientId: clientId /* required */,
-      ConfirmationCode: testConfirmCode /* required */,
-      Username: testUserName /* required */,
+      ConfirmationCode: data.verifyCode /* required */,
+      Username: data.email /* required */,
     };
     cognitoidentityserviceprovider.confirmSignUp(params, function (err, data) {
-      if (err) console.log(err, err.stack); // an error occurred
-      else console.log(data); // successful response
+      if (err) {
+        console.log(err, err.stack);
+      } else {
+        console.log(data);
+        context.state.authMode = 'login';
+      } // successful response
     });
+  },
+  resendConfirmationCode() {
+    var params = {
+      ClientId: clientId /* required */,
+      Username: testUserName /* required */,
+    };
+    cognitoidentityserviceprovider.resendConfirmationCode(
+      params,
+      function (err, data) {
+        if (err) console.log(err, err.stack); // an error occurred
+        else console.log(data); // successful response
+      }
+    );
   },
   async login() {
     var authenticationData = {
@@ -91,10 +118,35 @@ const actions = {
       },
     });
   },
+  async tryAutoLogin(context) {
+    // the line below is how we can keep getting user info to make requests to API
+    const cognitoUser = userPool.getCurrentUser();
+    if (cognitoUser != null) {
+      await cognitoUser.getSession(function (err, session) {
+        if (err) {
+          console.log(err);
+        }
+        // console.log(session.idToken.payload);
+        // console.log(session.isValid());
+        // check to see if valid session
+        if (session.isValid()) {
+          context.state.authMode = 'userPage';
+          context.state.userInfo = session.idToken.payload;
+        } else {
+          context.state.authMode = 'login';
+        }
+        // context.userId = session.idToken.payload.sub;
+        // context.username = session.idToken.payload['custom:userNameString'];
+      });
+    }
+  },
   async getCurrentUserIdToken() {
     const cognitoUser = userPool.getCurrentUser();
     let idToken;
     await cognitoUser.getSession(async function (err, session) {
+      if (err) {
+        console.log(err);
+      }
       console.log(session);
       idToken = session.idToken.jwtToken;
     });

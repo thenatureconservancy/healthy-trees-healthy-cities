@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper" v-if="loginMode == 'login'">
+  <div class="wrapper" v-if="authMode == 'login'">
     <div class="q-mb-lg">
       <div class="loginHeader">Login</div>
       <div class="loginSubText">Please sign in to continue.</div>
@@ -44,11 +44,11 @@
       >
     </div>
     <div class="no-account-wrapper">
-      Don't have an account? <span @click="loginMode = 'signup'">Sign Up</span>
+      Don't have an account? <span @click="authMode = 'signup'">Sign Up</span>
     </div>
   </div>
 
-  <div class="wrapper" v-if="loginMode == 'signup'">
+  <div class="wrapper" v-if="authMode == 'signup'">
     <div class="q-mb-lg">
       <div class="loginHeader">Create Account</div>
       <div class="loginSubText">Create an account to contribute.</div>
@@ -101,45 +101,104 @@
     </div>
 
     <div class="no-account-wrapper">
-      Already have an account? <span @click="loginMode = 'login'">Sign In</span>
+      Already have an account? <span @click="authMode = 'login'">Sign In</span>
     </div>
   </div>
 
-  <!-- <q-btn
-    @click="confirmSignup"
-    size="18px"
-    color="primary"
-    class="q-mb-xs q-mt-md"
-    >Confirm Sign Up</q-btn
-  > -->
-  <!-- <q-btn
-    @click="getCurrentUserIdToken"
-    size="18px"
-    color="primary"
-    class="q-mb-xs q-mt-md"
-    >getCurrentUserIdToken</q-btn
-  > -->
+  <div class="wrapper" v-if="authMode == 'verify'">
+    <div class="q-mb-lg">
+      <div class="loginHeader">Verify Account</div>
+      <div class="loginSubText">Check email to get verification code.</div>
+    </div>
+    <q-input
+      color="secondary"
+      class="q-mb-md"
+      outlined
+      style="width: 60vw"
+      v-model="verifyCode"
+      label="Verify Account"
+      type="text"
+    ></q-input>
+    <q-btn
+      @click="confirmSignup"
+      size="18px"
+      color="primary"
+      class="q-mb-xs q-mt-md"
+      >Verify Account</q-btn
+    >
+    <div class="no-account-wrapper">
+      Did not get a code? <span @click="resendAuthCode">Resend</span>
+    </div>
+  </div>
+
+  <div class="wrapper" v-if="authMode == 'userPage'">
+    <div class="q-mb-lg">
+      <div class="loginHeader">User Information</div>
+    </div>
+    <div style="font-size: 18px">
+      Welcome <b>{{ userInfo.email }}</b
+      >, your information is below!
+    </div>
+    <br />
+    {{ userInfo }}
+    <br />
+    <q-btn
+      @click="logoutUser"
+      size="18px"
+      color="primary"
+      class="q-mb-xs q-mt-md"
+      >Logout</q-btn
+    >
+  </div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      loginMode: 'login',
+      // loginMode: 'login',
       username: '',
       password: '',
+      verifyCode: '',
     };
+  },
+  computed: {
+    userInfo() {
+      return this.$store.state.userAuthStore.userInfo;
+    },
+    authMode: {
+      get() {
+        return this.$store.state.userAuthStore.authMode;
+      },
+      set(value) {
+        this.$store.state.userAuthStore.authMode = value;
+      },
+    },
   },
   methods: {
     accountCreate() {
-      this.$store.dispatch('createAccount');
+      // validate that the two passwords match here
+
+      this.$store.dispatch('createAccount', {
+        email: this.username,
+        password: this.password,
+      });
     },
     login() {
-      console.log(this.username, this.password);
-      this.$store.dispatch('login');
+      this.$store.dispatch('login', {
+        email: this.username,
+        password: this.password,
+      });
     },
+    logoutUser() {},
     confirmSignup() {
-      this.$store.dispatch('confirmSignup');
+      this.$store.dispatch('confirmSignup', {
+        email: this.username,
+        verifyCode: this.verifyCode,
+      });
+    },
+    resendAuthCode() {
+      console.log('resend auth code', this.verifyCode);
     },
 
     getCurrentUserIdToken() {
