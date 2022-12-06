@@ -124,6 +124,9 @@ export default {
       selected: 'home',
     };
   },
+  mounted() {
+    this.$store.dispatch('getAndValidateUserToken');
+  },
 };
 </script>
 
