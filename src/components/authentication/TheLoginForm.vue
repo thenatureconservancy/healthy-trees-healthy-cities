@@ -158,6 +158,8 @@
       class="q-mb-xs q-mt-md"
       >Example protected API request</q-btn
     >
+    <br />
+    <div>User info from protected route goes here</div>
   </div>
 </template>
 
@@ -173,14 +175,14 @@ export default {
   },
   computed: {
     userInfo() {
-      return this.$store.state.userAuthStore.userInfo;
+      return this.$store.state.authStore.userInfo;
     },
     authMode: {
       get() {
-        return this.$store.state.userAuthStore.authMode;
+        return this.$store.state.authStore.authMode;
       },
       set(value) {
-        this.$store.state.userAuthStore.authMode = value;
+        this.$store.state.authStore.authMode = value;
       },
     },
   },
@@ -217,7 +219,7 @@ export default {
       this.$store.dispatch('getCurrentUserIdToken');
     },
     exampleApiRequest() {
-      console.log('example protecetd request ');
+      this.$store.dispatch('getUserInfo');
     },
   },
 };
