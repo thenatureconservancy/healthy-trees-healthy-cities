@@ -179,10 +179,10 @@ const actions = {
       if (err) {
         console.log(err);
       }
-      console.log(session);
-      idToken = session.idToken.jwtToken;
+      if (session.isValid()) {
+        idToken = session.idToken.jwtToken;
+      }
     });
-    console.log(idToken);
     return idToken;
   },
 };
