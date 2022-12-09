@@ -18,10 +18,10 @@ import {
 // var AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 // var CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
 
-// test vars
-const testUserName = 'matthew.d.silveira@gmail.com';
-const testPassword = 'Pass1234!';
-const testConfirmCode = '269784';
+// // test vars
+// const testUserName = 'matthew.d.silveira@gmail.com';
+// const testPassword = 'Pass1234!';
+// const testConfirmCode = '269784';
 
 // cognito setup SDK setup
 const clientId = '101i663u1v1bhfgo3le89daot9';
@@ -58,6 +58,11 @@ const actions = {
       } else {
         console.log(data); // successful response}
         // redirect user to verify account with code page
+        // set user email verified to false
+        // make POST request to users table and add new user here.
+        // add users name, picture, nickname,
+        // add field, last logon, to find out stats on daily active users
+
         context.state.authMode = 'verify';
       }
     });
@@ -73,6 +78,8 @@ const actions = {
         console.log(err, err.stack);
       } else {
         console.log(data);
+        // set user email verified to true
+
         context.state.authMode = 'login';
       } // successful response
     });
