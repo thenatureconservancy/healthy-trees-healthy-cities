@@ -44,7 +44,9 @@
         round
         icon="sym_s_filter_alt"
         color="primary"
-        @click="showFilterDialog = true"
+        @click="
+          $store.commit('updateLeftDrawer', { open: true, content: 'filter' })
+        "
       >
       </q-btn>
     </div>
@@ -511,7 +513,6 @@ export default {
       color: 'white',
       actions: [
         {
-          icon: 'help',
           color: 'primary',
           label: 'Show Me',
           handler: () => {
