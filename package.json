@@ -13,6 +13,7 @@
     "axios": "^1.2.1",
     "core-js": "^3.6.5",
     "leaflet": "^1.9.2",
+    "mapbox-gl": "^2.11.1",
     "quasar": "^2.10.1",
     "register-service-worker": "^1.7.1",
     "vue": "^3.0.0",

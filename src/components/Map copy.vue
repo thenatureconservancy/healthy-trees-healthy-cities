@@ -441,7 +441,6 @@
 </template>
 
 <script>
-import mapboxgl from '/node_modules/mapbox-gl/dist/mapbox-gl.js';
 import L from '/node_modules/leaflet/dist/leaflet.js';
 import DialogMapLayers from './DialogMapLayers.vue';
 import DialogFilterTrees from './DialogFilterTrees.vue';
@@ -529,20 +528,6 @@ export default {
       console.log('stops');
     },
     createMap() {
-      // TO MAKE THE MAP APPEAR YOU MUST
-      // ADD YOUR ACCESS TOKEN FROM
-      // https://account.mapbox.com
-      mapboxgl.accessToken =
-        'pk.eyJ1IjoidG5jbWFwYm94IiwiYSI6ImNsYmZpNzE0MDA2aHozbm1wazV1aWp3NHUifQ.7plkZIxeS9mzUXB06i-CLg';
-      const map = new mapboxgl.Map({
-        container: 'map', // container ID
-        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-        style: 'mapbox://styles/mapbox/streets-v12', // style URL
-        center: [-74.5, 40], // starting position [lng, lat]
-        zoom: 9, // starting zoom
-      });
-    },
-    createMapLeaflet() {
       var map = L.map('map').setView([42.5423, -76.6056], 15);
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -657,7 +642,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style src="leaflet/dist/leaflet.css"></style>
-<style src="mapbox-gl/dist/mapbox-gl.css"></style>
 <style scoped>
 .semi-bold {
   font-weight: 500;
