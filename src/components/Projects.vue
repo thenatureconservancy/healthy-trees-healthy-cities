@@ -142,7 +142,7 @@
           @click="this.showFilterDialog = true"
           icon="sym_s_filter_alt"
           outline
-          color="primary"
+          :color="filterApplied ? 'primary' : 'grey-5'"
           >Add filter</q-btn
         >
       </div>
@@ -397,7 +397,9 @@
           taskSelected
         }}</q-chip>
       </q-card-actions>
-      <q-card-section class="row items-center"> </q-card-section>
+      <q-card-section class="row items-center">
+        <DialogTaskInstructions></DialogTaskInstructions>
+      </q-card-section>
     </q-card>
   </q-dialog>
   <!--Filter Dialog-->
@@ -407,6 +409,7 @@
     transition-hide="slide-left"
     maximized
     persistent
+    keep-alive
   >
     <q-card>
       <q-card-actions align="left">
@@ -422,7 +425,7 @@
         >
       </q-card-actions>
       <q-card-section class="row items-center">
-        <DialogFilterTrees></DialogFilterTrees>
+        <keep-alive><DialogFilterTrees></DialogFilterTrees></keep-alive>
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -431,41 +434,22 @@
 import FormNewProject from './FormNewProject.vue';
 import FormEditProject from './FormEditProject.vue';
 import DialogFilterTrees from './DialogFilterTrees.vue';
+import DialogTaskInstructions from './DialogTaskInstructions.vue';
+
 export default {
   name: 'Projects',
-  components: { FormNewProject, FormEditProject, DialogFilterTrees },
+  components: {
+    FormNewProject,
+    FormEditProject,
+    DialogFilterTrees,
+    DialogTaskInstructions,
+  },
   computed: {
-    heavyList() {
-      const maxSize = 3;
-      const heavyList = [];
-
-      for (let i = 0; i < maxSize; i++) {
-        heavyList.push({
-          label: 'Option ' + (i + 1),
-          class:
-            i % 2 === 0
-              ? 'q-pa-lg bg-black text-white q-ma-sm'
-              : 'q-pa-lg bg-black text-white q-ma-sm',
-        });
-      }
-      return heavyList;
-    },
-    heavyList2() {
-      const maxSize = 8;
-      const heavyList2 = [];
-
-      for (let i = 0; i < maxSize; i++) {
-        heavyList2.push({
-          label: 'Option ' + (i + 1),
-          class:
-            i % 2 === 0
-              ? 'q-pa-lg bg-black text-white q-ma-sm'
-              : 'q-pa-lg bg-black text-white q-ma-sm',
-        });
-      }
-      return heavyList2;
+    filterApplied() {
+      return this.$store.state.app.filterApplied;
     },
   },
+
   data() {
     return {
       taskSelected: '',

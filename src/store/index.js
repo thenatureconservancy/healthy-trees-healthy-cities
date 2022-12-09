@@ -3,7 +3,12 @@ import userAuthStore from './modules/userAuthStore';
 
 export default createStore({
   state: {
-    app: { defaultProject: 'My Trees', selectedView: '' },
+    app: {
+      defaultProject: 'My Trees',
+      selectedView: '',
+      appliedFilter: false,
+      leftDrawerOpen: false,
+    },
     user: {},
   },
   mutations: {
@@ -13,6 +18,10 @@ export default createStore({
     updateSelectedView(state, val) {
       console.log('getshere');
       state.app.selectedView = val;
+    },
+    updateAppliedFilter(state, bool) {
+      console.log(bool);
+      state.app.appliedFilter = bool;
     },
   },
   actions: {},

@@ -30,14 +30,13 @@
         <q-timeline-entry heading>July, 2022 </q-timeline-entry>
 
         <q-timeline-entry
-          color="blue"
           title="Health Check"
           subtitle="July 20, 2022"
           avatar="https://cdn.quasar.dev/img/avatar2.jpg"
         >
           <div>
-            <q-btn flat color="primary">View tree</q-btn>
-            <q-btn flat color="primary">View record</q-btn>
+            <q-btn flat color="primary">Map</q-btn>
+            <q-btn flat color="primary">Details</q-btn>
           </div>
         </q-timeline-entry>
 
@@ -57,8 +56,8 @@
             culpa qui officia deserunt mollit anim id est laborum.
           </div>
           <div>
-            <q-btn flat color="primary">View tree</q-btn>
-            <q-btn flat color="primary">View record</q-btn>
+            <q-btn flat color="primary">Map</q-btn>
+            <q-btn flat color="primary">Details</q-btn>
           </div>
         </q-timeline-entry>
 
@@ -71,8 +70,8 @@
           color="blue"
         >
           <div>
-            <q-btn flat color="primary">View tree</q-btn>
-            <q-btn flat color="primary">View record</q-btn>
+            <q-btn flat color="primary">Map</q-btn>
+            <q-btn flat color="primary">Details</q-btn>
           </div>
         </q-timeline-entry>
 
@@ -80,18 +79,16 @@
           title="Health Check"
           subtitle="May 15, 2022"
           icon="M&nbsp;B"
-          color="blue"
         >
           <div>
-            <q-btn flat color="primary">View tree</q-btn>
-            <q-btn flat color="primary">View record</q-btn>
+            <q-btn flat color="primary">Map</q-btn>
+            <q-btn flat color="primary">Details</q-btn>
           </div>
         </q-timeline-entry>
 
         <q-timeline-entry
           title="Pest Detection"
           subtitle="May 5, 2022"
-          color="orange"
           avatar="https://cdn.quasar.dev/img/avatar2.jpg"
         >
           <div>
@@ -100,8 +97,8 @@
             ad minim veniam, quis nostrud exercitation ullamco laboris nisi
           </div>
           <div>
-            <q-btn flat color="primary">View tree</q-btn>
-            <q-btn flat color="primary">View record</q-btn>
+            <q-btn flat color="primary">Map</q-btn>
+            <q-btn flat color="primary">Details</q-btn>
           </div>
         </q-timeline-entry>
 
@@ -115,8 +112,8 @@
             do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </div>
           <div>
-            <q-btn flat color="primary">View tree</q-btn>
-            <q-btn flat color="primary">View record</q-btn>
+            <q-btn flat color="primary">Map</q-btn>
+            <q-btn flat color="primary">Details</q-btn>
           </div>
         </q-timeline-entry>
 
@@ -130,8 +127,8 @@
             do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </div>
           <div>
-            <q-btn flat color="primary">View tree</q-btn>
-            <q-btn flat color="primary">View record</q-btn>
+            <q-btn flat color="primary">Map</q-btn>
+            <q-btn flat color="primary">Details</q-btn>
           </div>
         </q-timeline-entry>
       </q-timeline>

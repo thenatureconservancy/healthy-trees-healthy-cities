@@ -45,7 +45,8 @@
         icon="sym_s_filter_alt"
         color="primary"
         @click="showFilterDialog = true"
-      ></q-btn>
+      >
+      </q-btn>
     </div>
     <div
       id="addTree"
@@ -412,12 +413,38 @@
       </q-card-section>
     </q-card>
   </q-dialog>
+
+  <!--Tasks Dialog-->
+  <q-dialog
+    v-model="taskSelectedDialog"
+    transition-show="slide-right"
+    transition-hide="slide-left"
+    maximized
+    persistent
+  >
+    <q-card>
+      <q-card-actions align="left">
+        <q-btn
+          flat
+          icon="sym_s_arrow_back"
+          label=""
+          color="primary"
+          v-close-popup
+        />
+        <q-chip size="lg" color="white" class="text-primary">Add Tree</q-chip>
+      </q-card-actions>
+      <q-card-section class="row items-center">
+        <DialogTaskInstructions></DialogTaskInstructions>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script>
 import L from '/node_modules/leaflet/dist/leaflet.js';
 import DialogMapLayers from './DialogMapLayers.vue';
 import DialogFilterTrees from './DialogFilterTrees.vue';
+import DialogTaskInstructions from './DialogTaskInstructions.vue';
 
 const drawerMinHeight = 130;
 const drawerTopOffset = 150;
@@ -427,7 +454,7 @@ var bigBlue = '';
 var bigRed = '';
 export default {
   name: 'Map',
-  components: { DialogMapLayers, DialogFilterTrees },
+  components: { DialogMapLayers, DialogFilterTrees, DialogTaskInstructions },
   computed: {
     drawerMaxHeight() {
       return Math.max(0, this.$q.screen.height - drawerTopOffset);
@@ -458,6 +485,7 @@ export default {
   },
   data() {
     return {
+      taskSelectedDialog: false,
       showFilterDialog: false,
       showLayersDialog: false,
       red: 'on',
@@ -476,6 +504,21 @@ export default {
   },
   mounted() {
     this.createMap();
+    this.$q.notify({
+      message:
+        "Looks like you don''t have any trees in your project yet.  Would you like to see instructions for adding a tree?.",
+      color: 'white',
+      actions: [
+        {
+          icon: 'help',
+          color: 'primary',
+          label: 'Show Me',
+          handler: () => {
+            this.taskSelectedDialog = true;
+          },
+        },
+      ],
+    });
   },
   beforeUnmount() {
     clearTimeout(this.animateTimeout);

@@ -1,11 +1,12 @@
 <template>
   <div style="width: 100%">
-    <p class="semi-bold q-mb-none q-mt-lg text-body1">By activity performed:</p>
+    <p class="semi-bold q-mb-none q-mt-lg text-body1">By task performed:</p>
     <q-option-group
       v-model="selectedTasks"
       :options="tasks"
       color="primary"
       type="checkbox"
+      @update:model-value="applyFilter()"
     />
   </div>
   <div style="width: 100%">
@@ -15,15 +16,14 @@
       :options="members"
       color="primary"
       type="checkbox"
+      @click="applyFilter()"
     />
   </div>
 
   <div>
-    <p class="semi-bold q-mb-none q-mt-lg text-body1">
-      By activity time frame:
-    </p>
+    <p class="semi-bold q-mb-none q-mt-lg text-body1">By date range:</p>
     <div class="q-pa-md">
-      <q-date v-model="dateRange" range />
+      <q-date v-model="dateRange" range @click="applyFilter()" />
     </div>
   </div>
 </template>
@@ -69,6 +69,20 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    applyFilter() {
+      console.log('trigger');
+      console.log(this.selectedTasks);
+      if (
+        this.selectedMembers.length < 3 ||
+        this.selectedTasks.length < 4 ||
+        'from' in this.dateRange
+      ) {
+        console.log('trigger2');
+        this.$store.commit('updateAppliedFilter', true);
+      }
+    },
   },
 };
 </script>
