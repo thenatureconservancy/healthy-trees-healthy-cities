@@ -111,13 +111,13 @@
     </q-header>
 
     <q-drawer
-      v-model="$store.state.app.leftDrawerOpen"
+      v-model="$store.state.app.leftDrawer.open"
       side="left"
       bordered
       overlay
-      width="700"
     >
       <!-- drawer content -->
+      <DialogFilterTreesVue></DialogFilterTreesVue>
     </q-drawer>
 
     <q-page-container class="" style="padding-top: 1px">
@@ -207,9 +207,11 @@ import log from './components/log.vue';
 import settings from './components/settings.vue';
 import Resources from './components/Resources.vue';
 import Map from './components/Map.vue';
+import DialogFilterTreesVue from './components/DialogFilterTrees.vue';
+
 export default {
   name: 'App',
-  components: { Projects, Map, log, settings, Resources },
+  components: { Projects, Map, log, settings, Resources, DialogFilterTreesVue },
   computed: {
     selectedView() {
       return this.$store.state.app.selectedView;
@@ -242,6 +244,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 50px;
 }
 </style>

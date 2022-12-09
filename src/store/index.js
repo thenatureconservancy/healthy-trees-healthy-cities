@@ -9,7 +9,7 @@ export default createStore({
       defaultProject: 'My Trees',
       selectedView: '',
       appliedFilter: false,
-      leftDrawerOpen: false,
+      leftDrawer: { open: false, content: '' },
     },
     user: {},
     apiUrl: 'http://hthc.us-west-2.elasticbeanstalk.com/v0/',
@@ -25,6 +25,10 @@ export default createStore({
     updateAppliedFilter(state, bool) {
       console.log(bool);
       state.app.appliedFilter = bool;
+    },
+    updateLeftDrawer(state, obj) {
+      //obj = {open: bool, content: string};
+      state.app.leftDrawer = obj;
     },
   },
   actions: {

@@ -1,6 +1,6 @@
 <template>
   <q-scroll-area class="scroll-height">
-    <div class="row">
+    <div class="row q-mt-sm">
       <div class="col-6"></div>
       <div class="col-6">
         <q-btn
