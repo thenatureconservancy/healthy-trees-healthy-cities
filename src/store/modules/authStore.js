@@ -7,21 +7,12 @@ const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({
 });
 
 // ES AWS Modules
-
 import {
   CognitoUserPool,
   AuthenticationDetails,
   CognitoUserAttribute,
   CognitoUser,
 } from 'amazon-cognito-identity-js';
-
-// var AmazonCognitoIdentity = require('amazon-cognito-identity-js');
-// var CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
-
-// // test vars
-// const testUserName = 'matthew.d.silveira@gmail.com';
-// const testPassword = 'Pass1234!';
-// const testConfirmCode = '269784';
 
 // cognito setup SDK setup
 const clientId = '101i663u1v1bhfgo3le89daot9';
@@ -34,7 +25,6 @@ const poolData = {
 const userPool = new CognitoUserPool(poolData);
 
 const state = () => ({
-  // authMode: 'verify',
   authMode: 'login',
   userInfo: '',
 });
@@ -97,36 +87,20 @@ const actions = {
       }
     );
   },
-  async login(context) {
+  async login(context, data) {
     var authenticationData = {
-      Username: testUserName,
-      Password: testPassword,
+      Username: data.email,
+      Password: data.password,
     };
     const authenticationDetails = new AuthenticationDetails(authenticationData);
     const cognitoUser = new CognitoUser({
-      Username: testUserName,
+      Username: data.email,
       Pool: userPool,
     });
     // let context = this;
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: async function (result) {
-        context.dispatch('getAndValidateUserToken');
-        // console.log(result);
-        // const cognitoUser = userPool.getCurrentUser();
-        // if (cognitoUser != null) {
-        //   await cognitoUser.getSession(function (err, session) {
-        //     if (err) {
-        //       console.log(err);
-        //     }
-        //     console.log(session.idToken.payload);
-        //     console.log(session.isValid());
-        //     // check to see if valid session
-        //     if (session.isValid()) {
-        //       context.state.authMode = 'userPage';
-        //       context.state.userInfo = session.idToken.payload;
-        //     }
-        //   });
-        // }
+        context.dispatch('loginAtAppLoad');
       },
       onFailure: function (err) {
         console.log(err);
@@ -143,54 +117,84 @@ const actions = {
   logoutUser(context) {
     const cognitoUser = userPool.getCurrentUser();
     // sign user out of application
-    // this invalidates their tokens.
+    // this invalidates the AWS tokens.
     cognitoUser.signOut();
     context.state.userInfo = '';
     context.state.authMode = 'login';
+  },
 
-    // push back to login page
-    // router
-    //   .replace({
-    //     path: 'login',
-    //   })
-    //   .catch((err) => {
-    //     // console.log(err);
-    //   });
-  },
-  async getAndValidateUserToken(context) {
-    // the line below is how we can keep getting user info to make requests to API
-    const cognitoUser = userPool.getCurrentUser();
-    if (cognitoUser != null) {
-      await cognitoUser.getSession(function (err, session) {
-        if (err) {
-          console.log(err);
-        }
-        // console.log(session.idToken.payload);
-        // console.log(session.isValid());
-        // check to see if valid session
-        if (session.isValid()) {
-          context.state.authMode = 'userPage';
-          context.state.userInfo = session.idToken.payload;
-        } else {
-          context.state.authMode = 'login';
-        }
-        // context.userId = session.idToken.payload.sub;
-        // context.username = session.idToken.payload['custom:userNameString'];
-      });
+  async loginAtAppLoad(context) {
+    const userSession = await context.dispatch('getCurrentUserSession');
+    if (!userSession) {
+      context.state.authMode = 'login';
+      return;
     }
+    // show the user page and some basic info
+    // this will chnage depending o how we want to load the main site
+    context.state.authMode = 'userPage';
+    context.state.userInfo = userSession.idToken.payload;
   },
-  async getCurrentUserIdToken() {
-    const cognitoUser = userPool.getCurrentUser();
-    let idToken;
+
+  async getCurrentUserSession(context) {
+    let userSession;
+    const cognitoUser = await userPool.getCurrentUser();
+    if (!cognitoUser) {
+      console.log('redirect to login page');
+      return;
+    }
+
     await cognitoUser.getSession(async function (err, session) {
       if (err) {
-        console.log(err);
+        console.log('ERROR', err);
+        console.log('redirect to login page');
+        context.state.authMode = 'login';
+        //maybe try to clear local stoarge and then redirect to login page
+        return;
       }
-      if (session.isValid()) {
-        idToken = session.idToken.jwtToken;
+      if (!session) {
+        try {
+          return await context.dispatch('refreshTokenSilent');
+        } catch (error) {
+          console.log('redirect to login page');
+          context.state.authMode = 'login';
+          return;
+        }
       }
+
+      if (!session.isValid()) {
+        try {
+          return await context.dispatch('refreshTokenSilent');
+        } catch (error) {
+          console.log('redirect to login page');
+          context.state.authMode = 'login';
+          return;
+        }
+      }
+      userSession = session;
     });
-    return idToken;
+    return userSession;
+  },
+  async refreshTokenSilent(context) {
+    return new Promise((resolve, reject) => {
+      const cognitoUser = userPool.getCurrentUser();
+      //
+      if (!cognitoUser) {
+        reject('There was a problem refeshing the token');
+      }
+      cognitoUser.getSession(function (err, session) {
+        if (!session) {
+          reject('There was a problem refeshing the token');
+        }
+        const refresh_token = session.getRefreshToken();
+        cognitoUser.refreshSession(refresh_token, (err, session) => {
+          try {
+            resolve(session);
+          } catch (error) {
+            reject('There was a problem refeshing the token');
+          }
+        });
+      });
+    });
   },
 };
 

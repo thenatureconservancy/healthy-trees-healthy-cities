@@ -232,7 +232,7 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch('getAndValidateUserToken');
+    this.$store.dispatch('loginAtAppLoad');
   },
 };
 </script>
