@@ -53,19 +53,6 @@ const actions = {
     });
     console.log(response.data.data);
   },
-  // async getCurrentUserIdToken() {
-  //   const cognitoUser = userPool.getCurrentUser();
-  //   let idToken;
-  //   await cognitoUser.getSession(async function (err, session) {
-  //     if (err) {
-  //       console.log(err);
-  //     }
-  //     console.log(session);
-  //     idToken = session.idToken.jwtToken;
-  //   });
-  //   console.log(idToken);
-  //   return idToken;
-  // },
 };
 
 export default {

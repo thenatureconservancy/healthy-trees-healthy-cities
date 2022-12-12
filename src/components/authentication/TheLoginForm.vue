@@ -168,8 +168,8 @@ export default {
   data() {
     return {
       // loginMode: 'login',
-      username: '',
-      password: '',
+      username: 'matthew.d.silveira@gmail.com',
+      password: 'Pass1234!',
       verifyCode: '',
     };
   },
@@ -215,8 +215,8 @@ export default {
       console.log('resend auth code', this.verifyCode);
     },
 
-    getCurrentUserIdToken() {
-      this.$store.dispatch('getCurrentUserIdToken');
+    getCurrentUserSession() {
+      this.$store.dispatch('getCurrentUserSession');
     },
     exampleApiRequest() {
       this.$store.dispatch('getUserInfo');
