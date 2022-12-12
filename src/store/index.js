@@ -10,7 +10,8 @@ export default createStore({
       defaultProject: 'My Trees',
       selectedView: '',
       appliedFilter: false,
-      leftDrawer: { open: false, content: '' },
+      leftDrawer: { open: false, content: '', width: 310 },
+      screenWidth: '',
     },
     user: {},
   },
@@ -28,7 +29,12 @@ export default createStore({
     },
     updateLeftDrawer(state, obj) {
       //obj = {open: bool, content: string};
+      console.log(obj);
       state.app.leftDrawer = obj;
+    },
+    updateScreenWidth(state, int) {
+      console.log(int);
+      state.app.screenWidth = int;
     },
   },
   actions: {},

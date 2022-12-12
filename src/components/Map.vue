@@ -31,8 +31,15 @@
         padding="10px"
         round
         icon="sym_s_layers"
-        color="primary"
-        @click="showLayersDialog = true"
+        color="white"
+        text-color="primary"
+        @click="
+          $store.commit('updateLeftDrawer', {
+            open: true,
+            content: 'layers',
+            width: 270,
+          })
+        "
       ></q-btn>
     </div>
     <div
@@ -42,10 +49,15 @@
       <q-btn
         padding="10px"
         round
-        icon="sym_s_filter_alt"
-        color="primary"
+        icon="sym_s_highlight"
+        color="white"
+        text-color="primary"
         @click="
-          $store.commit('updateLeftDrawer', { open: true, content: 'filter' })
+          $store.commit('updateLeftDrawer', {
+            open: true,
+            content: 'filter',
+            width: 350,
+          })
         "
       >
       </q-btn>
@@ -279,8 +291,7 @@
                       border-top: 0.1px solid #eeeeee;
                       border-bottom: 0.1px solid #eeeeee;
                     "
-                  >
-                    <q-item
+                    ><q-item
                       clickable
                       v-ripple
                       @click="editProjectDialog = true"
@@ -343,7 +354,7 @@
     </div>
   </div>
 
-  <q-dialog
+  <!--q-dialog
     v-model="imagesDialog"
     transition-show="slide-right"
     transition-hide="slide-left"
@@ -363,9 +374,9 @@
       </q-card-actions>
       <q-card-section class="row items-center"> </q-card-section>
     </q-card>
-  </q-dialog>
+  </q-dialog-->
 
-  <q-dialog
+  <!--q-dialog
     v-model="showLayersDialog"
     transition-show="slide-right"
     transition-hide="slide-left"
@@ -387,10 +398,10 @@
         <DialogMapLayers></DialogMapLayers
       ></q-card-section>
     </q-card>
-  </q-dialog>
+  </q-dialog-->
 
   <!--Filter Dialog-->
-  <q-dialog
+  <!--q-dialog
     v-model="showFilterDialog"
     transition-show="slide-right"
     transition-hide="slide-left"
@@ -414,10 +425,10 @@
         <DialogFilterTrees></DialogFilterTrees>
       </q-card-section>
     </q-card>
-  </q-dialog>
+  </q-dialog-->
 
   <!--Tasks Dialog-->
-  <q-dialog
+  <!--q-dialog
     v-model="taskSelectedDialog"
     transition-show="slide-right"
     transition-hide="slide-left"
@@ -439,7 +450,7 @@
         <DialogTaskInstructions></DialogTaskInstructions>
       </q-card-section>
     </q-card>
-  </q-dialog>
+  </q-dialog-->
 </template>
 
 <script>

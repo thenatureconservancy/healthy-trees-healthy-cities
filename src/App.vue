@@ -115,9 +115,29 @@
       side="left"
       bordered
       overlay
+      :width="$store.state.app.leftDrawer.width"
     >
       <!-- drawer content -->
-      <DialogFilterTreesVue></DialogFilterTreesVue>
+      <keep-alive
+        ><DialogFilterTrees
+          v-if="$store.state.app.leftDrawer.content == 'filter'"
+        ></DialogFilterTrees
+      ></keep-alive>
+      <keep-alive
+        ><DialogMapLayers
+          v-if="$store.state.app.leftDrawer.content == 'layers'"
+        ></DialogMapLayers
+      ></keep-alive>
+      <keep-alive
+        ><FormNewProject
+          v-if="$store.state.app.leftDrawer.content == 'newProject'"
+        ></FormNewProject
+      ></keep-alive>
+      <keep-alive
+        ><FormEditProject
+          v-if="$store.state.app.leftDrawer.content == 'editProject'"
+        ></FormEditProject
+      ></keep-alive>
     </q-drawer>
 
     <q-page-container class="" style="padding-top: 1px">
@@ -207,11 +227,24 @@ import log from './components/log.vue';
 import settings from './components/settings.vue';
 import Resources from './components/Resources.vue';
 import Map from './components/Map.vue';
-import DialogFilterTreesVue from './components/DialogFilterTrees.vue';
+import DialogFilterTrees from './components/DialogFilterTrees.vue';
+import DialogMapLayers from './components/DialogMapLayers.vue';
+import FormNewProject from './components/FormNewProject.vue';
+import FormEditProject from './components/FormEditProject.vue';
 
 export default {
   name: 'App',
-  components: { Projects, Map, log, settings, Resources, DialogFilterTreesVue },
+  components: {
+    Projects,
+    Map,
+    log,
+    settings,
+    Resources,
+    DialogFilterTrees,
+    DialogMapLayers,
+    FormNewProject,
+    FormEditProject,
+  },
   computed: {
     selectedView() {
       return this.$store.state.app.selectedView;
@@ -232,7 +265,12 @@ export default {
     };
   },
   mounted() {
+
     this.$store.dispatch('loginAtAppLoad');
+    //get screen width
+    let width = parseInt(this.$q.screen.width);
+    this.$store.commit('updateScreenWidth', width);
+
   },
 };
 </script>
