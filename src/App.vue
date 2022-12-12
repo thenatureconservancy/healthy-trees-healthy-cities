@@ -265,10 +265,12 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch('getAndValidateUserToken');
+
+    this.$store.dispatch('loginAtAppLoad');
     //get screen width
     let width = parseInt(this.$q.screen.width);
     this.$store.commit('updateScreenWidth', width);
+
   },
 };
 </script>
