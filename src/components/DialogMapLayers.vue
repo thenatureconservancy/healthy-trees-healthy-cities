@@ -1,5 +1,15 @@
 <template>
-  <div style="width: 100%">
+  <q-card-actions align="left">
+    <q-btn
+      flat
+      icon="sym_s_arrow_back"
+      label=""
+      color="primary"
+      @click="$store.commit('updateLeftDrawer', { open: false, content: '' })"
+    />
+    <q-chip size="lg" color="white" class="text-primary">Layers</q-chip>
+  </q-card-actions>
+  <div class="q-ma-md text-left">
     <p class="semi-bold q-mb-none q-mt-none text-body1">
       Select layers to show on map :
     </p>
@@ -59,6 +69,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .semi-bold {
-  font-weight: 600;
+  font-weight: 500;
 }
 </style>

@@ -19,7 +19,13 @@
         size="md"
         flat
         icon="sym_s_filter_alt"
-        @click="this.showFilterDialog = true"
+        @click="
+          $store.commit('updateLeftDrawer', {
+            open: true,
+            content: 'filter',
+            width: 350,
+          })
+        "
       ></q-btn>
     </div>
   </div>
@@ -135,7 +141,7 @@
     </div>
   </q-scroll-area>
   <!--Filter Dialog-->
-  <q-dialog
+  <!--q-dialog
     v-model="showFilterDialog"
     transition-show="slide-right"
     transition-hide="slide-left"
@@ -159,7 +165,7 @@
         <DialogFilterTrees></DialogFilterTrees>
       </q-card-section>
     </q-card>
-  </q-dialog>
+  </q-dialog-->
 </template>
 
 <script>

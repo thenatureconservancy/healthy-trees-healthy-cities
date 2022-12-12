@@ -1,8 +1,7 @@
 <template>
   <q-scroll-area class="scroll-height">
-    <div class="row q-mt-sm">
-      <div class="col-6"></div>
-      <div class="col-6">
+    <div class="q-mt-sm">
+      <div class="text-right q-mr-md">
         <q-btn
           color="primary"
           padding="sm"
@@ -11,7 +10,13 @@
           icon-right="sym_s_add"
           label="New Project"
           no-caps
-          @click="newProjectDialog = true"
+          @click="
+            $store.commit('updateLeftDrawer', {
+              open: true,
+              content: 'newProject',
+              width: $store.state.app.screenWidth,
+            })
+          "
         ></q-btn>
       </div>
     </div>
@@ -19,7 +24,7 @@
       <div class="">
         <p class="q-mb-none semi-bold text-body1">Active Project</p>
         <div class="row">
-          <div class="col-10">
+          <div class="col-11">
             <q-select
               outlined
               v-model="$store.state.app.defaultProject"
@@ -43,13 +48,19 @@
           </div>
           <div class="col-1">
             <q-btn
-              :disable="$store.state.app.defaultProject == 'Taughannok Park'"
+              v-if="$store.state.app.defaultProject !== 'Taughannok Park'"
               color="primary"
               padding="md"
               size="md"
               flat
               icon="sym_s_edit"
-              @click="editProjectDialog = true"
+              @click="
+                $store.commit('updateLeftDrawer', {
+                  open: true,
+                  content: 'editProject',
+                  width: $store.state.app.screenWidth,
+                })
+              "
             ></q-btn>
           </div>
         </div>
@@ -132,20 +143,25 @@
           Pest Detection
         </q-chip>
       </div>
-      <div class="bg-grey-3 q-pa-sm q-mt-md">
+      <!--div class="bg-grey-3 q-pa-sm q-mt-md">
         <p class="semi-bold q-mb-none text-body1">Filter</p>
         <p class="q-mt-none q-pt-none">
           Applied filters will limit the project trees shown in the map and
           activities shown in the log
         </p>
         <q-btn
-          @click="this.showFilterDialog = true"
+          @click="
+            $store.commit('updateLeftDrawer', {
+              open: true,
+              content: 'filter',
+              width: 350,
+            })
+          "
           icon="sym_s_filter_alt"
           outline
-          :color="filterApplied ? 'primary' : 'grey-5'"
           >Add filter</q-btn
         >
-      </div>
+      </div-->
       <!--div class="row">
           <div
             class="col-3 q-pa-xs q-mr-md text-center text-grey-6"
@@ -325,7 +341,7 @@
   </q-scroll-area>
 
   <!--New Project Dialog-->
-  <q-dialog
+  <!--q-dialog
     v-model="newProjectDialog"
     transition-show="slide-right"
     transition-hide="slide-left"
@@ -349,9 +365,9 @@
         <FormNewProject></FormNewProject>
       </q-card-section>
     </q-card>
-  </q-dialog>
+  </q-dialog-->
   <!--Edit Project Dialog-->
-  <q-dialog
+  <!--q-dialog
     v-model="editProjectDialog"
     transition-show="slide-right"
     transition-hide="slide-left"
@@ -375,7 +391,7 @@
         <FormEditProject></FormEditProject>
       </q-card-section>
     </q-card>
-  </q-dialog>
+  </q-dialog-->
   <!--Tasks Dialog-->
   <q-dialog
     v-model="taskSelectedDialog"
@@ -403,7 +419,7 @@
     </q-card>
   </q-dialog>
   <!--Filter Dialog-->
-  <q-dialog
+  <!--q-dialog
     v-model="showFilterDialog"
     transition-show="slide-right"
     transition-hide="slide-left"
@@ -428,7 +444,7 @@
         <keep-alive><DialogFilterTrees></DialogFilterTrees></keep-alive>
       </q-card-section>
     </q-card>
-  </q-dialog>
+  </q-dialog-->
 </template>
 <script>
 import FormNewProject from './FormNewProject.vue';
