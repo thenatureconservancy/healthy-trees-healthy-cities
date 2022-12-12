@@ -51,7 +51,7 @@ const actions = {
       // route: `users/${context.rootState.authUserStore.userInfo.ouid}`,
       type: 'GET',
     });
-    console.log(response.data.data);
+    console.log(response.data.data, 'test');
   },
 };
 
