@@ -1,10 +1,19 @@
 <template>
-  <div class="">
-    Create a new Project
-
+  <q-card-actions align="left">
+    <q-btn
+      flat
+      icon="sym_s_arrow_back"
+      label=""
+      color="primary"
+      @click="$store.commit('updateLeftDrawer', { open: false })"
+    />
+    <q-chip size="lg" color="white" class="text-primary"
+      >Create New Project</q-chip
+    >
+  </q-card-actions>
+  <div class="q-ma-md">
     <q-input
       color="secondary"
-      style="width: 80vw"
       class="q-mb-sm"
       outlined
       v-model="pName"
@@ -12,18 +21,16 @@
     />
     <q-input
       color="secondary"
-      style="width: 80vw"
       type="textarea"
       outlined
       v-model="pDescription"
       label="Description"
     />
   </div>
-  <div class="q-mt-md">
+  <div class="q-ma-md text-left">
     Invite Members
 
     <q-select
-      style="width: 80vw"
       color="secondary"
       label="Email"
       outlined
