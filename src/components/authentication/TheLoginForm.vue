@@ -140,7 +140,7 @@
       >, your information is below!
     </div>
     <br />
-    {{ userInfo }}
+    <!-- {{ userInfo }} -->
     <br />
     <q-btn
       @click="logoutUser"
@@ -156,10 +156,11 @@
       size="18px"
       color="primary"
       class="q-mb-xs q-mt-md"
-      >Example protected API request</q-btn
+      >Query your private user info from DB</q-btn
     >
     <br />
-    <div>User info from protected route goes here</div>
+    <br />
+    <div>{{ userInfo }}</div>
   </div>
 </template>
 
@@ -175,7 +176,8 @@ export default {
   },
   computed: {
     userInfo() {
-      return this.$store.state.authStore.userInfo;
+      console.log(this.$store.state.userStore.userInfo);
+      return this.$store.state.userStore.userInfo;
     },
     authMode: {
       get() {
@@ -219,6 +221,7 @@ export default {
       this.$store.dispatch('getCurrentUserSession');
     },
     exampleApiRequest() {
+      this.$store.state.userStore.userInfo = '';
       this.$store.dispatch('getUserInfo');
     },
   },

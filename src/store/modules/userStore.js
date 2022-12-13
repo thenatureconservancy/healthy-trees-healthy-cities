@@ -45,13 +45,11 @@ const mutations = {};
 
 const actions = {
   async getUserInfo(context) {
-    // console.log(context);
     const response = await context.dispatch('protectedApiRequest', {
-      route: `cities`,
-      // route: `users/${context.rootState.authUserStore.userInfo.ouid}`,
+      route: `user`,
       type: 'GET',
     });
-    console.log(response.data.data, 'test');
+    context.state.userInfo = response.data.data[0];
   },
 };
 
