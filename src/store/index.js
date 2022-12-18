@@ -3,6 +3,7 @@ import axios from 'axios';
 import authStore from './modules/authStore';
 import userStore from './modules/userStore';
 import apiAccessStore from './modules/apiAccessStore';
+import s3Store from './modules/s3Store';
 
 export default createStore({
   state: {
@@ -42,5 +43,6 @@ export default createStore({
     authStore,
     userStore,
     apiAccessStore,
+    s3Store,
   },
 });
