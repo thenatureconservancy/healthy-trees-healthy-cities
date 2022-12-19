@@ -12,18 +12,52 @@ const actions = {
     params.bucket = 'hthc-photos';
     params.uuid = uuid;
     params.fileName = `${params.uuid}.${type}`;
+    console.log(params.file);
 
     const uploadUrl = await context.dispatch('getUploadUrlFromS3', params);
 
-    console.log(uploadUrl);
-
     context.dispatch('createFileBlob', params.file).then(async (blobData) => {
-      console.log(blobData);
-      const response = await fetch(uploadUrl, {
-        method: 'PUT',
-        body: blobData,
-      });
-      console.log(response);
+      // upload to S3 using the BLOB data and the S3 uploadUrl
+      try {
+        const response = await fetch(uploadUrl, {
+          method: 'PUT',
+          body: blobData,
+        });
+        if (response.status != 200) {
+          console.log('failed to upload photo to S3 bucket');
+          return;
+        }
+        try {
+          const dbResponse = await context.dispatch('protectedApiRequest', {
+            route: `photo`,
+            type: 'POST',
+            body: {
+              id: params.uuid,
+              s3_key: params.fileName,
+              size: params.file.size,
+              description: 'this is a test description....',
+            },
+          });
+
+          console.log(dbResponse);
+          if (dbResponse.status == 200) {
+            console.log(
+              'now make a request to get all users photos with upload URL'
+            );
+          }
+          // if dbResponse does not fail, make a request here for users photos
+        } catch (error) {
+          console.log(
+            'while the photo was uploaded to S3 the record was not added to the DB',
+            error
+          );
+        }
+      } catch (error) {
+        console.log(
+          'The photo was not able to be uploaded to S3, either let user know or try again silently',
+          error
+        );
+      }
     });
   },
   async getUploadUrlFromS3(context, params) {

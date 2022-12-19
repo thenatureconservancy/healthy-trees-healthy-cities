@@ -22,16 +22,16 @@ const actions = {
       // probably redirect to login or let user know to login
       return;
     }
-    console.log(session);
+    // console.log(session);
     const url = context.state.apiUrl + params.route;
-    console.log('API URL:', url);
+    // console.log('API URL:', url);
     const body = params.body;
     const options = {
       headers: {
         Authorization: session.idToken.jwtToken,
       },
     };
-    console.log('Options:', options);
+    // console.log('Options:', options);
     if (params.type === 'GET') {
       try {
         const response = await axios.get(url, options);
