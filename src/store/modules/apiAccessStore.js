@@ -22,20 +22,31 @@ const actions = {
       // probably redirect to login or let user know to login
       return;
     }
+    console.log(session);
     const url = context.state.apiUrl + params.route;
+    console.log('API URL:', url);
     const body = params.body;
     const options = {
       headers: {
         Authorization: session.idToken.jwtToken,
       },
     };
+    console.log('Options:', options);
     if (params.type === 'GET') {
-      const response = await axios.get(url, options);
-      return response;
+      try {
+        const response = await axios.get(url, options);
+        return response;
+      } catch (error) {
+        console.log('ERROR**:', error);
+      }
     }
     if (params.type === 'POST') {
-      const response = await axios.post(url, body, options);
-      return response;
+      try {
+        const response = await axios.post(url, body, options);
+        return response;
+      } catch (error) {
+        console.log('ERROR**:', error);
+      }
     }
     if (params.type === 'PUT') {
       const response = await axios.put(url, body, options);

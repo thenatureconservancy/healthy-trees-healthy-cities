@@ -8,7 +8,7 @@ const mutations = {};
 const actions = {
   async uploadPhotosToS3(context, params) {
     const uuid = uuidv4();
-    const type = params.file.name.split('.').pop()
+    const type = params.file.name.split('.').pop();
     params.bucket = 'hthc-photos';
     params.uuid = uuid;
     params.fileName = `${params.uuid}.${type}`;
@@ -28,7 +28,7 @@ const actions = {
   },
   async getUploadUrlFromS3(context, params) {
     const response = await context.dispatch('protectedApiRequest', {
-      route: `/S3/photo-upload-url`,
+      route: `S3/photo-upload-url`,
       type: 'POST',
       body: {
         fileName: params.fileName,
