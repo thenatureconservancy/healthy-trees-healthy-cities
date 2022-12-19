@@ -1,6 +1,6 @@
 import axios from 'axios';
 const state = () => ({
-  apiUrl: 'http://hthc.us-west-2.elasticbeanstalk.com/v0/',
+  apiUrl: 'https://hthc.us-west-2.elasticbeanstalk.com/v0/',
 });
 
 const getters = {};
