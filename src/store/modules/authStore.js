@@ -63,16 +63,19 @@ const actions = {
       ConfirmationCode: data.verifyCode /* required */,
       Username: data.email /* required */,
     };
-    cognitoidentityserviceprovider.confirmSignUp(params, function (err, data) {
-      if (err) {
-        console.log(err, err.stack);
-      } else {
-        console.log(data);
-        // set user email verified to true
+    cognitoidentityserviceprovider.confirmSignUp(
+      params,
+      async function (err, data) {
+        if (err) {
+          console.log(err, err.stack);
+        } else {
+          console.log(data);
+          // set user email verified to true
 
-        context.state.authMode = 'login';
-      } // successful response
-    });
+          context.state.authMode = 'login';
+        } // successful response
+      }
+    );
   },
   resendConfirmationCode() {
     var params = {
@@ -100,7 +103,14 @@ const actions = {
     // let context = this;
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: async function (result) {
-        context.dispatch('loginAtAppLoad');
+        await context.dispatch('loginAtAppLoad');
+
+        // this is only called once when a user logs in for the first time.
+        // subsequent calls this is called but nothing happens and is ignored
+        await context.dispatch('protectedApiRequest', {
+          route: `user`,
+          type: 'POST',
+        });
       },
       onFailure: function (err) {
         console.log(err);

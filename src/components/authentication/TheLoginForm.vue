@@ -132,16 +132,6 @@
   </div>
 
   <div class="wrapper" v-if="authMode == 'userPage'">
-    <div class="q-mb-lg">
-      <div class="loginHeader">User Information</div>
-    </div>
-    <div style="font-size: 18px">
-      Welcome <b>{{ userInfo.email }}</b
-      >, your information is below!
-    </div>
-    <br />
-    {{ userInfo }}
-    <br />
     <q-btn
       @click="logoutUser"
       size="18px"
@@ -149,33 +139,38 @@
       class="q-mb-xs q-mt-md"
       >Logout</q-btn
     >
-    <br />
-
-    <q-btn
-      @click="exampleApiRequest"
-      size="18px"
-      color="primary"
-      class="q-mb-xs q-mt-md"
-      >Example protected API request</q-btn
-    >
-    <br />
-    <div>User info from protected route goes here</div>
+    <div class="q-mt-lg flex justify-center">
+      <q-btn-toggle
+        v-model="userToggle"
+        toggle-color="primary"
+        push
+        class="q-ml-md"
+        :options="[
+          { label: 'User Info', value: 'user' },
+          { label: 'Photo Upload', value: 'photo' },
+        ]"
+      />
+      <TestUserInfo v-if="userToggle == 'user'" />
+      <TestUserPhotos v-if="userToggle == 'photo'" />
+    </div>
   </div>
 </template>
 
 <script>
+import TestUserInfo from '../user/TestUserInfo.vue';
+import TestUserPhotos from '../user/TestUserPhotos.vue';
 export default {
   data() {
     return {
-      // loginMode: 'login',
       username: 'matthew.d.silveira@gmail.com',
       password: 'Pass1234!',
       verifyCode: '',
+      userToggle: 'user',
     };
   },
   computed: {
     userInfo() {
-      return this.$store.state.authStore.userInfo;
+      return this.$store.state.userStore.userInfo;
     },
     authMode: {
       get() {
@@ -189,7 +184,6 @@ export default {
   methods: {
     accountCreate() {
       // validate that the two passwords match here
-
       this.$store.dispatch('createAccount', {
         email: this.username,
         password: this.password,
@@ -204,7 +198,6 @@ export default {
     logoutUser() {
       this.$store.dispatch('logoutUser');
     },
-
     confirmSignup() {
       this.$store.dispatch('confirmSignup', {
         email: this.username,
@@ -213,15 +206,17 @@ export default {
     },
     resendAuthCode() {
       console.log('resend auth code', this.verifyCode);
+      //
     },
-
     getCurrentUserSession() {
       this.$store.dispatch('getCurrentUserSession');
     },
     exampleApiRequest() {
+      this.$store.state.userStore.userInfo = '';
       this.$store.dispatch('getUserInfo');
     },
   },
+  components: { TestUserInfo, TestUserPhotos },
 };
 </script>
 
