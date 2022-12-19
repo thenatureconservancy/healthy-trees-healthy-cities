@@ -23,6 +23,7 @@ const actions = {
       return;
     }
     const url = context.state.apiUrl + params.route;
+    console.log('API URL:', url);
     const body = params.body;
     const options = {
       headers: {
