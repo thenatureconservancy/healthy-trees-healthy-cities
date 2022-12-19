@@ -41,8 +41,12 @@ const actions = {
       }
     }
     if (params.type === 'POST') {
-      const response = await axios.post(url, body, options);
-      return response;
+      try {
+        const response = await axios.post(url, body, options);
+        return response;
+      } catch (error) {
+        console.log('ERROR**:', error);
+      }
     }
     if (params.type === 'PUT') {
       const response = await axios.put(url, body, options);
