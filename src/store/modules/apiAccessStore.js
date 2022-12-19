@@ -31,9 +31,14 @@ const actions = {
         Authorization: session.idToken.jwtToken,
       },
     };
+    console.log('Options:', options);
     if (params.type === 'GET') {
-      const response = await axios.get(url, options);
-      return response;
+      try {
+        const response = await axios.get(url, options);
+        return response;
+      } catch (error) {
+        console.log('ERROR**:', error);
+      }
     }
     if (params.type === 'POST') {
       const response = await axios.post(url, body, options);
