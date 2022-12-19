@@ -22,6 +22,7 @@ const actions = {
       // probably redirect to login or let user know to login
       return;
     }
+    console.log(session);
     const url = context.state.apiUrl + params.route;
     console.log('API URL:', url);
     const body = params.body;
