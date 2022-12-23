@@ -257,7 +257,7 @@
                     Quercus Albus
                   </div>
                   <div class="text-caption text-grey">
-                    DBH: 65 inches | Height: 16 ft
+                    DBH: 65 in | Height: 16 ft
                   </div>
 
                   <q-card-actions
