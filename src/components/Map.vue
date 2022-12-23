@@ -194,6 +194,7 @@
               color="primary"
               class="bg-grey-3 q-pl-sm"
               label="Project"
+              options-selected-class="text-deep-orange"
             >
               <template v-slot:selected-item="scope">
                 <div class="ellipsis">{{ scope.opt }}</div>
@@ -295,7 +296,7 @@
                     Quercus Albus
                   </div>
                   <div class="text-caption text-grey">
-                    DBH: 65 inches | Height: 16 ft
+                    DBH: 65 in | Height: 16 ft
                   </div>
                   <q-btn padding="xs" size="sm" flat color="primary">
                     View History
@@ -366,7 +367,7 @@
             </q-card>
             <q-card>
               <q-card-section>
-                <q-scroll-area style="height: 370px">
+                <q-scroll-area style="height: 350px">
                   <div class="q-gutter-sm row justify-center">
                     <div style="height: 140px; width: 150px">
                       <q-icon

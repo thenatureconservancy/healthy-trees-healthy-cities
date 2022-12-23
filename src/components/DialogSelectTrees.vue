@@ -37,6 +37,7 @@
           use-chips
           stack-label
           label="Select Contributors"
+          options-selected-class="text-deep-orange"
         />
       </div>
     </div>

@@ -7,6 +7,7 @@
         color="primary"
         class="bg-grey-3 q-pl-sm"
         label="Project"
+        options-selected-class="text-deep-orange"
         style="width: 100%"
       >
         <template v-slot:selected-item="scope">

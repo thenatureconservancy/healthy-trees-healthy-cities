@@ -44,6 +44,7 @@
       input-debounce="0"
       new-value-mode="add-unique"
       style="font-size: 16px"
+      options-selected-class="text-deep-orange"
     />
   </div>
 

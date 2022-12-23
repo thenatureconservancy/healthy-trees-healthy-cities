@@ -90,26 +90,13 @@
         <div class="col-11">
           <q-select
             filled
-            v-model="model"
-            :options="options"
+            v-model="twigDiebackModel"
+            :options="twigDiebackOptions"
             label="Fine Twig Dieback"
-            color="teal"
+            color="primary"
             clearable
             options-selected-class="text-deep-orange"
           >
-            <template v-slot:option="scope">
-              <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
-                <q-item-section>
-                  <q-item-label v-html="scope.opt.label"></q-item-label>
-                  <q-item-label caption>{{
-                    scope.opt.description
-                  }}</q-item-label>
-                </q-item-section>
-                <q-item-section avatar>
-                  <q-icon :name="scope.opt.icon"></q-icon>
-                </q-item-section>
-              </q-item>
-            </template>
           </q-select>
         </div>
         <div class="col-1 self-center">
@@ -143,18 +130,10 @@
       </q-card>
 
       <q-card class="row q-ma-md q-pa-md" bordered>
-        Leaf Discoloration
-        <div class="col-11 text-left">
-          <q-option-group
-            v-model="group"
-            :options="leafDiscolorationOptions"
-            color="primary"
-            inline
-          />
-        </div>
+        <div class="col-11 text-left">Leaf Discoloration</div>
         <div class="col-1 self-center">
           <q-btn
-            padding="10px"
+            padding="0px"
             flat
             icon="sym_s_info"
             :color="layersActive ? 'primary' : 'white'"
@@ -179,22 +158,22 @@
                 />
               </q-banner> </q-menu
           ></q-btn>
+        </div>
+        <div class="text-left">
+          <q-option-group
+            v-model="leafDiscolorationModel"
+            :options="leafDiscolorationOptions"
+            color="primary"
+            inline
+          />
         </div>
       </q-card>
 
       <q-card class="row q-ma-md q-pa-md" bordered>
-        Crown Light Exposure
-        <div class="col-11 text-left">
-          <q-option-group
-            v-model="group"
-            :options="leafDiscolorationOptions"
-            color="primary"
-            inline
-          />
-        </div>
+        <div class="col-11 text-left">Crown Light Exposure</div>
         <div class="col-1 self-center">
           <q-btn
-            padding="10px"
+            padding="0px"
             flat
             icon="sym_s_info"
             :color="layersActive ? 'primary' : 'white'"
@@ -219,22 +198,22 @@
                 />
               </q-banner> </q-menu
           ></q-btn>
+        </div>
+        <div class="text-left">
+          <q-option-group
+            v-model="crownLightModel"
+            :options="crownLightOptions"
+            color="primary"
+            inline
+          />
         </div>
       </q-card>
 
       <q-card class="row q-ma-md q-pa-md" bordered>
-        Crown Vigor Rating
-        <div class="col-11 text-left">
-          <q-option-group
-            v-model="group"
-            :options="leafDiscolorationOptions"
-            color="primary"
-            inline
-          />
-        </div>
+        <div class="col-11 text-left">Crown Vigor Rating</div>
         <div class="col-1 self-center">
           <q-btn
-            padding="10px"
+            padding="0px"
             flat
             icon="sym_s_info"
             :color="layersActive ? 'primary' : 'white'"
@@ -259,6 +238,14 @@
                 />
               </q-banner> </q-menu
           ></q-btn>
+        </div>
+        <div class="text-left">
+          <q-option-group
+            v-model="crownVigorModel"
+            :options="crownVigorOptions"
+            color="primary"
+            inline
+          />
         </div>
       </q-card>
 
@@ -269,23 +256,10 @@
             v-model="model"
             :options="options"
             label="Crown Transparency"
-            color="teal"
+            color="primary"
             clearable
             options-selected-class="text-deep-orange"
           >
-            <template v-slot:option="scope">
-              <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
-                <q-item-section>
-                  <q-item-label v-html="scope.opt.label"></q-item-label>
-                  <q-item-label caption>{{
-                    scope.opt.description
-                  }}</q-item-label>
-                </q-item-section>
-                <q-item-section avatar>
-                  <q-icon :name="scope.opt.icon"></q-icon>
-                </q-item-section>
-              </q-item>
-            </template>
           </q-select>
         </div>
         <div class="col-1 self-center">
@@ -313,10 +287,17 @@
       </q-card>
 
       <div class="q-ma-md">
-        <q-input v-model="text" filled type="textarea" label="Notes" />
+        <q-input
+          v-model="text"
+          filled
+          type="textarea"
+          label="Notes"
+          style="font-size: 16px"
+        />
       </div>
     </q-expansion-item>
   </q-list>
+  <div style="height: 250px"></div>
 </template>
 
 <script>
@@ -334,40 +315,87 @@ export default {
       tHeight: '',
       tDead: false,
       notes: '',
-      options: [
+      twigDiebackModel: '',
+      twigDiebackOptions: [
+        { label: '1 = 0-1%(trace)', value: 0 },
+        { label: '5 = 2-5%', value: 5 },
+        { label: '10 = 6-10%', value: 10 },
+        { label: '15 = 11-15%', value: 15 },
+        { label: '20 = 16-20%', value: 20 },
+        { label: '25 = 21-25%', value: 25 },
+        { label: '30 = 26-30%', value: 30 },
+        { label: '35 = 31-35%', value: 35 },
+        { label: '40 = 36-40%', value: 40 },
+        { label: '45 = 41-45%', value: 45 },
+        { label: '50 = 46-50%', value: 50 },
+        { label: '55 = 51-55%', value: 55 },
+        { label: '60 = 56-60%', value: 60 },
+        { label: '65 = 61-65%', value: 65 },
+        { label: '70 = 66-70%', value: 70 },
+        { label: '75 = 71-75%', value: 75 },
+        { label: '80 = 76-80%', value: 80 },
+        { label: '85 = 81-85%', value: 85 },
+        { label: '90 = 86-90%', value: 90 },
+        { label: '95 = 91-95%', value: 95 },
+        { label: '99 = 96-99%', value: 99 },
+        { label: '100 = 100%', value: 100 },
+      ],
+      leafDiscolorationModel: '',
+      leafDiscolorationOptions: [
         {
-          label: 'Google',
-          value: 'Google',
-          description: 'Search engine',
-          icon: 'mail',
+          label: 'N/A',
+          value: 0,
         },
         {
-          label: 'Facebook',
-          value: 'Facebook',
-          description: 'Social media',
-          icon: 'bluetooth',
+          label: '1',
+          value: 1,
         },
         {
-          label: 'Twitter',
-          value: 'Twitter',
-          description: 'Quick updates',
-          icon: 'map',
+          label: '2',
+          value: 2,
         },
         {
-          label: 'Apple',
-          value: 'Apple',
-          description: 'iStuff',
-          icon: 'golf_course',
+          label: '3',
+          value: 3,
         },
         {
-          label: 'Oracle',
-          value: 'Oracle',
-          disable: true,
-          description: 'Databases',
-          icon: 'casino',
+          label: '4',
+          value: 4,
+        },
+        {
+          label: '5',
+          value: 5,
         },
       ],
-      leafDiscolorationOptions: [
+      crownVigorModel: '',
+      crownVigorOptions: [
+        {
+          label: 'N/A',
+          value: 0,
+        },
+        {
+          label: '1',
+          value: 1,
+        },
+        {
+          label: '2',
+          value: 2,
+        },
+        {
+          label: '3',
+          value: 3,
+        },
+        {
+          label: '4',
+          value: 4,
+        },
+        {
+          label: '5',
+          value: 5,
+        },
+      ],
+      crownLightModel: '',
+      crownLightOptions: [
         {
           label: 'N/A',
           value: 0,

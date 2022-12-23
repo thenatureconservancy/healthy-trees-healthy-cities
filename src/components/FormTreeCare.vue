@@ -95,6 +95,7 @@
           multiple
           emit-value
           map-options
+          options-selected-class="text-deep-orange"
         >
           <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
             <q-item v-bind="itemProps">
@@ -130,6 +131,7 @@
       </div>
     </q-expansion-item>
   </q-list>
+  <div style="height: 250px"></div>
 </template>
 
 <script>

@@ -31,6 +31,7 @@
               :options="options"
               bottom-slots
               class="text-body1"
+              options-selected-class="text-deep-orange"
             >
               <template v-slot:hint>
                 <span
