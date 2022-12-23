@@ -1,9 +1,9 @@
 <template>
   <div style="width: 100%">
-    <q-card class="my-card q-mb-lg" bordered>
+    <q-card class="my-card q-mb-lg" flat>
       <q-card-section class="q-pb-xs">
         <p class="text-body1 q-mb-none q-pb-none">
-          1. First check the map to see if your tree is there
+          1. First check the map to see if your tree is already on the map
         </p></q-card-section
       >
       <q-separator inset spaced></q-separator>
@@ -22,7 +22,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="my-card q-mb-lg" bordered>
+    <q-card class="my-card q-mb-lg" flat>
       <q-card-section class="q-pb-xs">
         <p class="text-body1 q-mb-none q-pb-none">
           2. If you dont see your tree, add it to the map
@@ -51,7 +51,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="my-card q-mb-lg" bordered>
+    <q-card class="my-card q-mb-lg" flat>
       <q-card-section class="q-pb-xs">
         <p class="text-body1 q-mb-none q-pb-none">
           3. Perfom tasks on Project Trees

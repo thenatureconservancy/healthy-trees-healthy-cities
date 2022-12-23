@@ -18,6 +18,7 @@
       outlined
       v-model="pName"
       label="Name"
+      style="font-size: 16px"
     />
     <q-input
       color="secondary"
@@ -25,6 +26,7 @@
       outlined
       v-model="pDescription"
       label="Description"
+      style="font-size: 16px"
     />
   </div>
   <div class="q-ma-md text-left">
@@ -41,6 +43,7 @@
       hide-dropdown-icon
       input-debounce="0"
       new-value-mode="add-unique"
+      style="font-size: 16px"
     />
   </div>
 

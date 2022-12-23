@@ -31,15 +31,30 @@
         padding="10px"
         round
         icon="sym_s_layers"
-        color="white"
-        text-color="primary"
-        @click="
-          $store.commit('updateLeftDrawer', {
-            open: true,
-            content: 'layers',
-            width: 270,
-          })
-        "
+        :color="layersActive ? 'primary' : 'white'"
+        :text-color="layersActive ? 'white' : 'primary'"
+      >
+        <q-menu
+          style="width: 250px"
+          anchor="bottom right"
+          self="bottom left"
+          @before-hide="this.layersActive = false"
+          @before-show="this.layersActive = true"
+        >
+          <q-banner>
+            <br />
+            <div class="text-primary">
+              <span class="text-bold">Select Map Layers </span>
+              <DialogMapLayers></DialogMapLayers>
+            </div>
+            <q-btn
+              class="float-right"
+              label="OK"
+              color="primary"
+              flat
+              v-close-popup
+            />
+          </q-banner> </q-menu
       ></q-btn>
     </div>
     <div
@@ -55,8 +70,8 @@
         @click="
           $store.commit('updateLeftDrawer', {
             open: true,
-            content: 'filter',
-            width: 350,
+            content: 'select',
+            width: $store.state.app.screenWidth,
           })
         "
       >
@@ -81,6 +96,13 @@
           :disable="
             $store.state.app.defaultProject == 'Taughannok Park' ? true : false
           "
+          @click="
+            $store.commit('updateLeftDrawer', {
+              open: true,
+              content: 'addtree',
+              width: $store.state.app.screenWidth,
+            })
+          "
         />
         <q-fab-action
           color="white"
@@ -89,6 +111,13 @@
           label="add via GPS"
           :disable="
             $store.state.app.defaultProject == 'Taughannok Park' ? true : false
+          "
+          @click="
+            $store.commit('updateLeftDrawer', {
+              open: true,
+              content: 'addtree',
+              width: $store.state.app.screenWidth,
+            })
           "
         />
       </q-fab>
@@ -157,17 +186,19 @@
           v-touch-pan.mouse.vertical="slideDrawer"
           class="semi-bold text-subtitle2 q-mt-none q-mb-md text-black row"
         >
-          <div class="col-4 self-center">Active Project:</div>
-          <div class="col-6">
-            {{ $store.state.app.defaultProject }}
-            <q-btn
+          <div class="col-9 q-pl-lg">
+            <q-select
+              v-model="$store.state.app.defaultProject"
+              :options="options"
+              style="width: 100%"
               color="primary"
-              padding="sm"
-              size="sm"
-              flat
-              icon="sym_s_edit"
-              @click="$store.commit('updateSelectedView', 'home')"
-            ></q-btn>
+              class="bg-grey-3 q-pl-sm"
+              label="Project"
+            >
+              <template v-slot:selected-item="scope">
+                <div class="ellipsis">{{ scope.opt }}</div>
+              </template></q-select
+            >
           </div>
           <div class="col-2 self-center">
             &nbsp; &nbsp;(1<q-icon
@@ -226,7 +257,7 @@
                     Quercus Albus
                   </div>
                   <div class="text-caption text-grey">
-                    DBH: 65 inches | Height: 16 ft
+                    DBH: 65 in | Height: 16 ft
                   </div>
 
                   <q-card-actions
@@ -240,23 +271,8 @@
                 </q-card-section>
               </q-card-section>
             </q-card>
-            <q-card
-              class="my-card q-pt-none q-mt-none"
-              v-if="showCard == 'red'"
-              flat
-              bordered
-            >
-              <q-card-section horizontal>
-                <q-card-section
-                  class="col-5 flex flex-center highlight-and-fade"
-                >
-                  <q-img
-                    style="max-height: 22vh"
-                    fit="contain"
-                    class="rounded-borders"
-                    src="img/temp.jpg"
-                  >
-                    <!--div
+            <q-card class="my-card q-pt-none q-mt-none" flat bordered>
+              <!--div
                       style="background: rgba(0, 0, 0, 0.15)"
                       class="absolute-full text-subtitle2 flex flex-center"
                       @click="imagesDialog = true"
@@ -266,13 +282,11 @@
                         size="xs"
                         name="sym_s_search"
                       ></q-icon></div
-                    --></q-img
-                  >
-                </q-card-section>
-
+                    -->
+              <q-card-section horizontal text-left>
                 <q-card-section
                   v-touch-pan.mouse.vertical="slideDrawer"
-                  class="q-pt-xs col-7 self-center"
+                  class="q-pt-xs q-pb-none col-6 text-right"
                 >
                   <div class="text-h6 q-mt-sm q-mb-none q-pb-none text-black">
                     White Oak
@@ -283,69 +297,156 @@
                   <div class="text-caption text-grey">
                     DBH: 65 inches | Height: 16 ft
                   </div>
-
-                  <q-list
-                    class="text-primary text-left q-mt-sm"
-                    dense
-                    style="
-                      border-top: 0.1px solid #eeeeee;
-                      border-bottom: 0.1px solid #eeeeee;
-                    "
-                    ><q-item
-                      clickable
-                      v-ripple
-                      @click="editProjectDialog = true"
-                      class="text-left"
-                      style="border-bottom: 0.5px solid #eeeeee"
-                      v-if="
-                        $store.state.app.defaultProject !== 'Taughannok Park'
-                      "
-                    >
-                      <q-item-section class="text-subtitle2">
-                        <q-item-label> <span>Tree Care</span></q-item-label>
-                      </q-item-section>
-                      <q-item-section avatar>
-                        <q-icon color="secondary" name="sym_s_arrow_right" />
-                      </q-item-section>
-                    </q-item>
-                    <q-item
-                      clickable
-                      v-ripple
-                      @click="viewProjectDialog = true"
-                      style="border-bottom: 0.1px solid #eeeeee"
-                      v-if="
-                        $store.state.app.defaultProject !== 'Taughannok Park'
-                      "
-                    >
-                      <q-item-section>
-                        <q-item-label>
-                          <span class="text-subtitle2"
-                            >Health Check</span
-                          ></q-item-label
-                        >
-                      </q-item-section>
-                      <q-item-section avatar>
-                        <q-icon color="secondary" name="sym_s_arrow_right" />
-                      </q-item-section>
-                    </q-item>
-                    <q-item
-                      clickable
-                      v-ripple
-                      @click="editProjectDialog = true"
-                    >
-                      <q-item-section>
-                        <q-item-label>
-                          <span class="text-subtitle2"
-                            >Pest Detection</span
-                          ></q-item-label
-                        >
-                      </q-item-section>
-                      <q-item-section avatar>
-                        <q-icon color="primary" name="sym_s_arrow_right" />
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
+                  <q-btn padding="xs" size="sm" flat color="primary">
+                    View History
+                  </q-btn>
                 </q-card-section>
+                <q-card-section
+                  class="col-2 flex self-center highlight-and-fade"
+                >
+                  <div class="text-primary">
+                    <q-knob
+                      readonly
+                      v-model="treeHealthIndex"
+                      :max="10"
+                      show-value
+                      size="80px"
+                      :thickness="0.22"
+                      color="orange"
+                      track-color="orange-3"
+                      class="text-orange q-ma-md"
+                    /></div
+                ></q-card-section>
+              </q-card-section>
+
+              <q-card-actions align="center">
+                <q-btn
+                  size="md"
+                  color="primary"
+                  flat
+                  style="background-color: #c8e6c9"
+                  @click="
+                    $store.commit('updateLeftDrawer', {
+                      open: true,
+                      content: 'health',
+                      width: $store.state.app.screenWidth,
+                    })
+                  "
+                  >Health Check</q-btn
+                >
+                <q-btn
+                  size="md"
+                  color="primary"
+                  flat
+                  style="background-color: #c8e6c9"
+                  @click="
+                    $store.commit('updateLeftDrawer', {
+                      open: true,
+                      content: 'care',
+                      width: $store.state.app.screenWidth,
+                    })
+                  "
+                  >Tree Care</q-btn
+                >
+                <q-btn
+                  size="md"
+                  color="primary"
+                  flat
+                  style="background-color: #c8e6c9"
+                  @click="
+                    $store.commit('updateLeftDrawer', {
+                      open: true,
+                      content: 'pest',
+                      width: $store.state.app.screenWidth,
+                    })
+                  "
+                  >Pest Detection</q-btn
+                >
+              </q-card-actions>
+            </q-card>
+            <q-card>
+              <q-card-section>
+                <q-scroll-area style="height: 370px">
+                  <div class="q-gutter-sm row justify-center">
+                    <div style="height: 140px; width: 150px">
+                      <q-icon
+                        style="
+                          height: 140px;
+                          max-width: 150px;
+                          padding-top: 30px;
+                        "
+                        color="grey-5"
+                        size="90px"
+                        name="sym_s_add_circle"
+                      ></q-icon>
+                    </div>
+                    <q-img
+                      :src="'https://placeimg.com/500/300/nature?t=27'"
+                      spinner-color="grey-3"
+                      style="height: 140px; max-width: 150px"
+                      @click="
+                        $store.commit('updateLeftDrawer', {
+                          open: true,
+                          content: 'image',
+                          width: $store.state.app.screenWidth,
+                        })
+                      "
+                    />
+
+                    <q-img
+                      :src="'https://placeimg.com/500/300/nature?t=53'"
+                      spinner-color="grey-3"
+                      style="height: 140px; max-width: 150px"
+                      @click="
+                        $store.commit('updateLeftDrawer', {
+                          open: true,
+                          content: 'image',
+                          width: $store.state.app.screenWidth,
+                        })
+                      "
+                    />
+
+                    <q-img
+                      :src="'https://placeimg.com/500/300/nature?t=19'"
+                      style="height: 140px; max-width: 150px"
+                      spinner-color="grey-3"
+                      @click="
+                        $store.commit('updateLeftDrawer', {
+                          open: true,
+                          content: 'image',
+                          width: $store.state.app.screenWidth,
+                        })
+                      "
+                    >
+                    </q-img>
+
+                    <q-img
+                      :src="'https://placeimg.com/500/300/nature?t=26'"
+                      style="height: 140px; max-width: 150px"
+                      @click="
+                        $store.commit('updateLeftDrawer', {
+                          open: true,
+                          content: 'image',
+                          width: $store.state.app.screenWidth,
+                        })
+                      "
+                    >
+                    </q-img>
+
+                    <q-img
+                      :src="'https://placeimg.com/500/300/nature?t=14'"
+                      style="height: 140px; max-width: 150px"
+                      @click="
+                        $store.commit('updateLeftDrawer', {
+                          open: true,
+                          content: 'image',
+                          width: $store.state.app.screenWidth,
+                        })
+                      "
+                    >
+                    </q-img>
+                  </div>
+                </q-scroll-area>
               </q-card-section>
             </q-card>
           </div>
@@ -460,7 +561,7 @@ import DialogMapLayers from './DialogMapLayers.vue';
 import DialogFilterTrees from './DialogFilterTrees.vue';
 import DialogTaskInstructions from './DialogTaskInstructions.vue';
 
-const drawerMinHeight = 130;
+const drawerMinHeight = 148;
 const drawerTopOffset = 150;
 const drawerOpenRatioHalf = 50;
 
@@ -499,6 +600,8 @@ export default {
   },
   data() {
     return {
+      layersActive: false,
+      treeHealthIndex: 6,
       taskSelectedDialog: false,
       showFilterDialog: false,
       showLayersDialog: false,
