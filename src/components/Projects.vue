@@ -22,7 +22,7 @@
     </div>
     <div class="bg-white text-left q-ma-sm q-pa-md">
       <div class="">
-        <p class="q-mb-none semi-bold text-body1">Active Project</p>
+        <p class="q-mb-none semi-bold text-body1">Select Project</p>
         <div class="row">
           <div class="col-11">
             <q-select

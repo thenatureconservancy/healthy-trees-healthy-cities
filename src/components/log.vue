@@ -1,18 +1,20 @@
 <template>
   <div class="semi-bold text-subtitle2 q-mt-none q-mb-md text-black row">
-    <div class="col-4 self-center">Active Project:</div>
-    <div class="col-6 self-center">
-      {{ $store.state.app.defaultProject }}
-      <q-btn
+    <div class="q-pa-sm col-9">
+      <q-select
+        v-model="$store.state.app.defaultProject"
+        :options="options"
         color="primary"
-        padding="sm"
-        size="md"
-        flat
-        icon="sym_s_edit"
-        @click="$store.commit('updateSelectedView', 'home')"
-      ></q-btn>
+        class="bg-grey-3 q-pl-sm"
+        label="Project"
+        style="width: 100%"
+      >
+        <template v-slot:selected-item="scope">
+          <div class="ellipsis">{{ scope.opt }}</div>
+        </template></q-select
+      >
     </div>
-    <div class="col-2 self-center">
+    <div class="col-3 self-center">
       <q-btn
         color="primary"
         padding="sm"
@@ -23,12 +25,14 @@
           $store.commit('updateLeftDrawer', {
             open: true,
             content: 'filter',
-            width: 350,
+            width: $store.state.app.screenWidth,
           })
         "
-      ></q-btn>
+        >Filter</q-btn
+      >
     </div>
   </div>
+
   <q-separator inset></q-separator>
   <q-scroll-area class="scroll-height">
     <div class="q-ma-xl text-left">
@@ -41,7 +45,7 @@
           avatar="https://cdn.quasar.dev/img/avatar2.jpg"
         >
           <div>
-            <q-btn flat color="primary">Map</q-btn>
+            <q-btn flat color="primary">View on Map</q-btn>
             <q-btn flat color="primary">Details</q-btn>
           </div>
         </q-timeline-entry>
@@ -62,7 +66,7 @@
             culpa qui officia deserunt mollit anim id est laborum.
           </div>
           <div>
-            <q-btn flat color="primary">Map</q-btn>
+            <q-btn flat color="primary">View on Map</q-btn>
             <q-btn flat color="primary">Details</q-btn>
           </div>
         </q-timeline-entry>
@@ -76,7 +80,7 @@
           color="blue"
         >
           <div>
-            <q-btn flat color="primary">Map</q-btn>
+            <q-btn flat color="primary">View on Map</q-btn>
             <q-btn flat color="primary">Details</q-btn>
           </div>
         </q-timeline-entry>
@@ -87,7 +91,7 @@
           icon="M&nbsp;B"
         >
           <div>
-            <q-btn flat color="primary">Map</q-btn>
+            <q-btn flat color="primary">View on Map</q-btn>
             <q-btn flat color="primary">Details</q-btn>
           </div>
         </q-timeline-entry>
@@ -103,7 +107,7 @@
             ad minim veniam, quis nostrud exercitation ullamco laboris nisi
           </div>
           <div>
-            <q-btn flat color="primary">Map</q-btn>
+            <q-btn flat color="primary">View on Map</q-btn>
             <q-btn flat color="primary">Details</q-btn>
           </div>
         </q-timeline-entry>
@@ -118,7 +122,7 @@
             do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </div>
           <div>
-            <q-btn flat color="primary">Map</q-btn>
+            <q-btn flat color="primary">View on Map</q-btn>
             <q-btn flat color="primary">Details</q-btn>
           </div>
         </q-timeline-entry>
@@ -133,7 +137,7 @@
             do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </div>
           <div>
-            <q-btn flat color="primary">Map</q-btn>
+            <q-btn flat color="primary">View on Map</q-btn>
             <q-btn flat color="primary">Details</q-btn>
           </div>
         </q-timeline-entry>
@@ -175,6 +179,11 @@ export default {
   components: { DialogFilterTrees },
   data() {
     return {
+      options: [
+        'My Trees',
+        'Taughannok Park',
+        'Trumansburg Neighborhood Tree Watch',
+      ],
       showFilterDialog: false,
     };
   },

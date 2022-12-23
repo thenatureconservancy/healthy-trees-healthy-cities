@@ -1,29 +1,14 @@
 <template>
-  <q-card-actions align="left">
-    <q-btn
-      flat
-      icon="sym_s_arrow_back"
-      label=""
-      color="primary"
-      @click="$store.commit('updateLeftDrawer', { open: false, content: '' })"
-    />
-    <q-chip size="lg" color="white" class="text-primary">Layers</q-chip>
-  </q-card-actions>
-  <div class="q-ma-md text-left">
-    <p class="semi-bold q-mb-none q-mt-none text-body1">
-      Select layers to show on map :
-    </p>
-    <q-checkbox
-      style="width: 100%"
-      v-for="opt in layers"
-      v-model="opt.model"
-      :key="opt.value"
-      color="primary"
-      type="checkbox"
-      ><q-icon size="sm" :name="opt.iconName" :color="opt.iconColor"></q-icon>
-      &nbsp;{{ opt.label }}</q-checkbox
-    >
-  </div>
+  <q-checkbox
+    style="width: 100%"
+    v-for="opt in layers"
+    v-model="opt.model"
+    :key="opt.value"
+    color="primary"
+    type="checkbox"
+    ><q-icon size="sm" :name="opt.iconName" :color="opt.iconColor"></q-icon>
+    &nbsp;{{ opt.label }}</q-checkbox
+  >
 </template>
 
 <script>
