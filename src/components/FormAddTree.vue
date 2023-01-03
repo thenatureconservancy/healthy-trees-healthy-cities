@@ -142,8 +142,15 @@
     </q-tab-panel>
   </q-tab-panels>
   <div class="q-ma-md">
-    <q-input v-model="text" filled type="textarea" label="Notes" />
+    <q-input
+      style="font-size: 16px"
+      v-model="text"
+      filled
+      type="textarea"
+      label="Notes"
+    />
   </div>
+  <div style="height: 600px"></div>
 </template>
 
 <script>
