@@ -297,7 +297,7 @@
       </div>
     </q-expansion-item>
   </q-list>
-  <div style="height: 250px"></div>
+  <div style="height: 600px"></div>
 </template>
 
 <script>

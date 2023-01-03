@@ -47,6 +47,7 @@
       options-selected-class="text-deep-orange"
     />
   </div>
+  <div style="height: 600px"></div>
 </template>
 
 <script>

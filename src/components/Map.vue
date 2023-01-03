@@ -303,7 +303,7 @@
                   </q-btn>
                 </q-card-section>
                 <q-card-section
-                  class="col-2 flex self-center highlight-and-fade"
+                  class="col-2 flex self-center highlight-and-fade q-pb-none q-pt-xs"
                 >
                   <div class="text-primary">
                     <q-knob
@@ -315,12 +315,12 @@
                       :thickness="0.22"
                       color="orange"
                       track-color="orange-3"
-                      class="text-orange q-ma-md"
+                      class="text-orange"
                     /></div
                 ></q-card-section>
               </q-card-section>
 
-              <q-card-actions align="center">
+              <q-card-actions align="center" class="q-mt-none">
                 <q-btn
                   size="md"
                   color="primary"
@@ -381,9 +381,8 @@
                         name="sym_s_add_circle"
                       ></q-icon>
                     </div>
-                    <q-img
+                    <img
                       :src="'https://placeimg.com/500/300/nature?t=27'"
-                      spinner-color="grey-3"
                       style="height: 140px; max-width: 150px"
                       @click="
                         $store.commit('updateLeftDrawer', {
@@ -394,9 +393,8 @@
                       "
                     />
 
-                    <q-img
+                    <img
                       :src="'https://placeimg.com/500/300/nature?t=53'"
-                      spinner-color="grey-3"
                       style="height: 140px; max-width: 150px"
                       @click="
                         $store.commit('updateLeftDrawer', {
@@ -407,10 +405,9 @@
                       "
                     />
 
-                    <q-img
+                    <img
                       :src="'https://placeimg.com/500/300/nature?t=19'"
                       style="height: 140px; max-width: 150px"
-                      spinner-color="grey-3"
                       @click="
                         $store.commit('updateLeftDrawer', {
                           open: true,
@@ -418,10 +415,9 @@
                           width: $store.state.app.screenWidth,
                         })
                       "
-                    >
-                    </q-img>
+                    />
 
-                    <q-img
+                    <img
                       :src="'https://placeimg.com/500/300/nature?t=26'"
                       style="height: 140px; max-width: 150px"
                       @click="
@@ -431,10 +427,9 @@
                           width: $store.state.app.screenWidth,
                         })
                       "
-                    >
-                    </q-img>
+                    />
 
-                    <q-img
+                    <img
                       :src="'https://placeimg.com/500/300/nature?t=14'"
                       style="height: 140px; max-width: 150px"
                       @click="
@@ -444,8 +439,7 @@
                           width: $store.state.app.screenWidth,
                         })
                       "
-                    >
-                    </q-img>
+                    />
                   </div>
                 </q-scroll-area>
               </q-card-section>
@@ -563,7 +557,7 @@ import DialogFilterTrees from './DialogFilterTrees.vue';
 import DialogTaskInstructions from './DialogTaskInstructions.vue';
 
 const drawerMinHeight = 148;
-const drawerTopOffset = 150;
+const drawerTopOffset = 75;
 const drawerOpenRatioHalf = 50;
 
 var bigBlue = '';
@@ -648,7 +642,7 @@ export default {
       // TO MAKE THE MAP APPEAR YOU MUST
       // ADD YOUR ACCESS TOKEN FROM
       // https://account.mapbox.com
-      mapboxgl.accessToken =
+      /*   mapboxgl.accessToken =
         'pk.eyJ1IjoidG5jbWFwYm94IiwiYSI6ImNsYmZpNzE0MDA2aHozbm1wazV1aWp3NHUifQ.7plkZIxeS9mzUXB06i-CLg';
       const map = new mapboxgl.Map({
         container: 'map', // container ID
@@ -656,6 +650,47 @@ export default {
         style: 'mapbox://styles/mapbox/streets-v12', // style URL
         center: [-74.5, 40], // starting position [lng, lat]
         zoom: 9, // starting zoom
+      });*/
+
+      // First, create a new Mapbox map and set the center and zoom level
+      mapboxgl.accessToken =
+        'pk.eyJ1IjoidG5jbWFwYm94IiwiYSI6ImNsYmZpNzE0MDA2aHozbm1wazV1aWp3NHUifQ.7plkZIxeS9mzUXB06i-CLg';
+      // First, create a new Mapbox map and set the center and zoom level
+      // mapboxgl.accessToken = 'your-access-token';
+      // First, create a new Mapbox map and set the center and zoom level
+      // mapboxgl.accessToken = 'your-access-token';
+      // First, create a new Mapbox map and set the center and zoom level
+      //mapboxgl.accessToken = 'your-access-token';
+      var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v9',
+        center: [-74.5, 40],
+        zoom: 9,
+      });
+
+      map.on('load', function () {
+        map.addLayer({
+          id: 'points',
+          type: 'symbol',
+          source: {
+            type: 'geojson',
+            data: {
+              type: 'FeatureCollection',
+              features: [
+                {
+                  type: 'Feature',
+                  geometry: {
+                    type: 'Point',
+                    coordinates: [-74.5, 40],
+                  },
+                },
+              ],
+            },
+          },
+          layout: {
+            'icon-image': 'tree-15',
+          },
+        });
       });
     },
     createMapLeaflet() {
